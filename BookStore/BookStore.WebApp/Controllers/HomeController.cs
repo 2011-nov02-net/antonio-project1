@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BookStore.WebApp.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using StoreApplication.WebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StoreApplication.WebApp.Controllers
+namespace BookStore.WebApp.Controllers
 {
     public class HomeController : Controller
     {

@@ -1,3 +1,6 @@
+using BookStore.Data.Entities;
+using BookStore.Data.Repositories;
+using BookStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,13 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using StoreApplication.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StoreApplication.WebApp
+namespace BookStore.WebApp
 {
     public class Startup
     {
@@ -26,7 +28,9 @@ namespace StoreApplication.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<StoreContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("default")));
+                options.UseSqlServer(Configuration.GetConnectionString("StoreDb")));
+            services.AddScoped<IStoreRepository, StoreRepository>();
+
             services.AddControllersWithViews();
         }
 

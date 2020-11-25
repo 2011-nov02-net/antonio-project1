@@ -23,12 +23,13 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Book)
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new { id=item.Book }) 
+                @Html.ActionLink("See Book Details", "Details", "Library", new { id=item.Book })
             </td>
         </tr>
 }

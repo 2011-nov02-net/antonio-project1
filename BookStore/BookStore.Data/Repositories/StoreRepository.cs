@@ -174,6 +174,11 @@ namespace BookStore.Data.Repositories
 
             return m_customers;
         }
+
+        public IEnumerable<Domain.Models.Customer> GetCustomers()
+        {
+            return _context.Customers.Include(l => l.Location).Select(Mapper_Customer.MapCustomerWithLocation);
+        }
         /// <summary>
         /// The purpose of this method is to return the string version of an order, given an order number.
         /// It not only returns the information on the customer but also each order line.

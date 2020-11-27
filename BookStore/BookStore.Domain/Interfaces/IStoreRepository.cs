@@ -18,5 +18,7 @@ namespace BookStore.Domain.Interfaces
         void Save();
         public IEnumerable<Models.Stock> GetStocksForLocation(int locationID);
         IEnumerable<Domain.Models.Book> FillBookLibrary();
+        public IEnumerable<Domain.Models.Customer> GetCustomers();
+
     }
 }

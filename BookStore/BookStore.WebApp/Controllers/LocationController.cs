@@ -45,8 +45,8 @@ namespace BookStore.WebApp.Controllers
             var models = _repository.GetOrderHistoryByLocationID(id).Select(o => new OrderViewModel
             {
                 OrderNumber = o.OrderNumber,
-                CustomerName = o.CustomerPlaced.Name,
-                TimeStamp = o.TimeStamp
+                TimeStamp = o.TimeStamp,
+                TotalCost = o.Purchase.Sum(p => p.LineCost)
             });
             return View(models);
         }

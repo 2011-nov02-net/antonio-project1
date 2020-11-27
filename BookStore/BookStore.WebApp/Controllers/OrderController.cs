@@ -9,42 +9,49 @@ using System.Threading.Tasks;
 
 namespace BookStore.WebApp.Controllers
 {
-    public class LibraryController : Controller
+    public class OrderController : Controller
     {
         private readonly IStoreRepository _repository;
 
-        public LibraryController(IStoreRepository repository)
+        public OrderController(IStoreRepository repository)
         {
             _repository = repository;
         }
 
-        // GET: LibraryController
+        // GET: OrderController
         public ActionResult Index()
-        {
-            var library = _repository.FillBookLibrary().Select(b => new BookViewModel
-            { 
-                ISBN = b.ISBN,
-                AuthorFirstName = b.AuthorFirstName,
-                AuthorLastName = b.AuthorLastName,
-                Price = b.Price,
-                Title = b.Title
-            });
-            return View(library);
-        }
-
-        // GET: LibraryController/Details/5
-        public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: LibraryController/Create
+        // GET: OrderController/Details/5
+        public ActionResult Details(int id)
+        {
+            var orderDetails = _repository.GetDetailsForOrder(id);
+            var vm_orderDetails = new OrderViewModel
+            {
+                TimeStamp = orderDetails.TimeStamp,
+                CustomerName = orderDetails.CustomerPlaced.Name,
+                LocationName = orderDetails.LocationPlaced.LocationName,
+                OrderNumber = orderDetails.OrderNumber,
+                TotalCost = orderDetails.GetOrderTotal(),
+                Purchase = orderDetails.Purchase.Select(ol => new OrderLineViewModel {
+                    BookISBN = ol.BookISBN,
+                    LineCost = ol.LineCost,
+                    Quantity = ol.Quantity
+                }).ToList()
+            };
+            
+            return View(vm_orderDetails);
+        }
+
+        // GET: OrderController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: LibraryController/Create
+        // POST: OrderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -59,13 +66,13 @@ namespace BookStore.WebApp.Controllers
             }
         }
 
-        // GET: LibraryController/Edit/5
+        // GET: OrderController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: LibraryController/Edit/5
+        // POST: OrderController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -80,13 +87,13 @@ namespace BookStore.WebApp.Controllers
             }
         }
 
-        // GET: LibraryController/Delete/5
+        // GET: OrderController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: LibraryController/Delete/5
+        // POST: OrderController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

@@ -1,10 +1,10 @@
-﻿@model IEnumerable<BookStore.Domain.Models.Book>
+﻿@model IEnumerable<BookStore.WebApp.Models.BookViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Library</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -17,12 +17,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AuthorLastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AuthorFirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AuthorFullName)
@@ -43,12 +37,6 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AuthorLastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AuthorFirstName)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.AuthorFullName)
             </td>
             <td>
@@ -56,7 +44,6 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>

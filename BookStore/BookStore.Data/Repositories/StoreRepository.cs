@@ -137,13 +137,11 @@ namespace BookStore.Data.Repositories
         public void AddACustomer(Domain.Models.Customer customer)
         {
             // Create the Entity item to be put into the database
-            CustomerEntity entity = new CustomerEntity();
+            CustomerEntity entity;
 
             // Since the database handles the ID setting with identity, we only need to assign the new entity the firstname and the lastname
             // Maybe in the future we could add a way to change the location, but for now the database sets the location to the default 1.
-            entity.FirstName = customer.FirstName;
-            entity.LastName = customer.LastName;
-            entity.Id = 0;
+            entity = Mapper_Customer.Map(customer);
 
             // Add the new entity to the context to send over to the database
             _context.Add(entity);
@@ -182,7 +180,7 @@ namespace BookStore.Data.Repositories
         /// </summary>
         /// <param name="ordernumber"></param>
         /// <returns>A string version of an order summary.</returns>
-        public IEnumerable<Domain.Models.OrderLine> GetDetailsForOrder(int ordernumber)
+        public Domain.Models.Order GetDetailsForOrder(int ordernumber)
         {
             // This method is called because we need the information on the whole catalog
             // Since the catalog is small I went with this implementation.
@@ -210,7 +208,7 @@ namespace BookStore.Data.Repositories
                 return null;
             }
 
-            return dbOrder.Orderlines.Select(Mapper_OrderLine.Map);
+            return Mapper_Order.MapOrderWithLocationCustomerAndOrderLines(dbOrder);
         }
 
         /// <summary>
@@ -228,14 +226,14 @@ namespace BookStore.Data.Repositories
             // Find if the location exists and include all information including orders and their orderlines
             LocationEntity dbLocation = _context.Locations
                 .Include(o => o.Orders)
-                .ThenInclude(c => c.Customer)
+                .ThenInclude(c => c.Orderlines)
                 .FirstOrDefault(l => l.Id == locationID);
 
             // If it doesn't exist then return that the location does not exist.
             if (dbLocation == null) { 
                 return null;
             }
-            return dbLocation.Orders.Select(Mapper_Order.Map);
+            return dbLocation.Orders.Select(Mapper_Order.MapOrderWithOrderLines);
         }
 
         public IEnumerable<Domain.Models.Order> GetOrderHistoryByCustomer(int id)
@@ -266,13 +264,14 @@ namespace BookStore.Data.Repositories
         /// <summary>
         /// The purpose of this class is to fill the static Domain in the models with the book information
         /// </summary>
-        public void FillBookLibrary()
+        public IEnumerable<Domain.Models.Book> FillBookLibrary()
         {
             IEnumerable<BookEntity> dbBooks = _context.Books.ToList();
             foreach (BookEntity b in dbBooks)
             {
                 Domain.Models.Book.Library.Add(Mapper_Book.Map(b));
             }
+            return dbBooks.Select(Mapper_Book.Map);
         }
 
         /// <summary>

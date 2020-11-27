@@ -83,7 +83,8 @@ namespace BookStore.Data.Mappers
             {
                 ID = customer.Id,
                 FirstName = customer.FirstName,
-                LastName = customer.LastName
+                LastName = customer.LastName,
+                MyStoreLocation = Mapper_Location.Map(customer.Location)
             };
         }
 

@@ -12,11 +12,11 @@ namespace BookStore.Domain.Interfaces
         public Models.Customer GetCustomerWithLocationAndInventory(int id);
         void AddACustomer(Customer customer);
         public IEnumerable<Models.Customer> FindCustomerByName(string[] search);
-        IEnumerable<OrderLine> GetDetailsForOrder(int ordernumber);
+        Domain.Models.Order GetDetailsForOrder(int ordernumber);
         IEnumerable<Order> GetOrderHistoryByLocationID(int locationID);
         IEnumerable<Order> GetOrderHistoryByCustomer(int id);
         void Save();
         public IEnumerable<Models.Stock> GetStocksForLocation(int locationID);
-        void FillBookLibrary();
+        IEnumerable<Domain.Models.Book> FillBookLibrary();
     }
 }

@@ -19,7 +19,7 @@ namespace BookStore.WebApp.Controllers
         }
 
         // GET: CustomerController
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
             var customers = _repository.GetCustomers().Select(c => new CustomerViewModel
             {
@@ -28,6 +28,12 @@ namespace BookStore.WebApp.Controllers
                 LastName = c.LastName,
                 MyStoreLocation = c.MyStoreLocation.LocationName
             });
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                customers = customers.Where(s => s.Name.Contains(searchString));
+            }
+
             return View(customers);
         }
 

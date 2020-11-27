@@ -14,5 +14,7 @@ namespace BookStore.WebApp.Models
         public string MyStoreLocation { get; set; }
         public IEnumerable<OrderViewModel> Orders { get; set; }
         public IEnumerable<LocationViewModel> allLocations { get; set; }
+
+        public string SearchString { get; set; }
     }
 }

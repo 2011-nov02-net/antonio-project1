@@ -40,7 +40,20 @@ namespace BookStore.WebApp.Controllers
         // GET: CustomerController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var customerDetails = _repository.GetOrderHistoryByCustomer(id);
+            var customer = new CustomerViewModel {
+                FirstName = customerDetails.FirstName,
+                LastName = customerDetails.LastName,
+                ID = customerDetails.ID,
+                Orders = customerDetails.Orders.Select(o => new OrderViewModel {
+                    Purchase = o.Purchase.Select(ol => new OrderLineViewModel {
+                        BookISBN = ol.BookISBN,
+                        LineCost = ol.LineCost,
+                        Quantity = ol.Quantity
+                    }).ToList()
+                })
+            };
+            return View(customer);
         }
 
         // GET: CustomerController/Create
@@ -54,8 +67,6 @@ namespace BookStore.WebApp.Controllers
                     Name = l.LocationName
                 })
             }).First();
-
-            ViewBag.Hello = "Hi";
             return View(locations);
         }
 

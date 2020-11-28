@@ -10,9 +10,9 @@ namespace BookStore.Domain.Models
         private const int ordercap = 250;
         public Location LocationPlaced { get; set; }
         public Customer CustomerPlaced { get; set; }
-        public List<OrderLine> Purchase { get; set; } = new List<OrderLine>();
+        public IEnumerable<OrderLine> Purchase { get; set; } = new IEnumerable<OrderLine>();
         public DateTime TimeStamp { get; set; }
-        public static List<Order> OrderHistory { get; } = new List<Order>();
+        public static IEnumerable<Order> OrderHistory { get; set; }
         public int OrderNumber { get; set; }
 
         /// <summary>

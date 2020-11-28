@@ -51,7 +51,7 @@ namespace BookStore.Data.Mappers
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 ID = customer.Id,
-                Orders = customer.Orders.Select(Mapper_Order.MapOrderWithOrderLines).ToList()
+                Orders = customer.Orders.Select(Mapper_Order.MapOrderWithOrderLines)
             };
         }
 

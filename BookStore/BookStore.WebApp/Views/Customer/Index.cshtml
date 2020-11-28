@@ -49,6 +49,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.MyStoreLocation)
                 </td>
+                <td>
+                    @Html.ActionLink("Order History", "Details", new { id = item.ID })
+                </td>
             </tr>
         }         
     </tbody>

@@ -241,7 +241,7 @@ namespace BookStore.Data.Repositories
             return dbLocation.Orders.Select(Mapper_Order.MapOrderWithOrderLines);
         }
 
-        public IEnumerable<Domain.Models.Order> GetOrderHistoryByCustomer(int id)
+        public Domain.Models.Customer GetOrderHistoryByCustomer(int id)
         {
             // This method is called because we need the information on the whole catalog
             // Since the catalog is small I went with this implementation.
@@ -263,7 +263,7 @@ namespace BookStore.Data.Repositories
             // if one was found then map it to a usable object
             Domain.Models.Customer m_customer = Mapper_Customer.MapCustomerWithOrders(dbCustomer);
 
-            return dbCustomer.Orders.Select(Mapper_Order.Map);
+            return m_customer;
         }
 
         /// <summary>

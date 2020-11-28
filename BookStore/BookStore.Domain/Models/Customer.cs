@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BookStore.Domain.Models
 {
@@ -10,11 +11,11 @@ namespace BookStore.Domain.Models
         public string Name { get => FirstName + " " + LastName; }
         public int ID { get; set; }
         public virtual Location MyStoreLocation { get; set; }
-        public List<Order> Orders { get; set; } = new List<Order>();
+        public IEnumerable<Order> Orders { get; set; }
 
         public void AddOrderToHistory(Order order)
         {
-            Orders.Add(order);
+            Orders.ToList().Add(order);
         }
 
         public override string ToString()

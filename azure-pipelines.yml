@@ -4,7 +4,12 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- main
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - BookStore
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -14,4 +19,5 @@ variables:
 
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+  displayName: 'dotnet build'
+  workingDirectory: BookStore

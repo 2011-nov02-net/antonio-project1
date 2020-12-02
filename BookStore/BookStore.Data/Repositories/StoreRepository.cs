@@ -250,6 +250,7 @@ namespace BookStore.Data.Repositories
 
             // Attempt to find the customer
             CustomerEntity dbCustomer = _context.Customers
+                .Include(l=> l.Location)
                 .Include(o => o.Orders)
                 .ThenInclude(ol => ol.Orderlines)
                 .FirstOrDefault(c => c.Id == id);

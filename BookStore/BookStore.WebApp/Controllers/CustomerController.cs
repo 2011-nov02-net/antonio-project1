@@ -45,13 +45,13 @@ namespace BookStore.WebApp.Controllers
                 FirstName = customerDetails.FirstName,
                 LastName = customerDetails.LastName,
                 ID = customerDetails.ID,
+                MyStoreLocation = customerDetails.MyStoreLocation.LocationName,
                 Orders = customerDetails.Orders.Select(o => new OrderViewModel {
-                    Purchase = o.Purchase.Select(ol => new OrderLineViewModel {
-                        BookISBN = ol.BookISBN,
-                        LineCost = ol.LineCost,
-                        Quantity = ol.Quantity
-                    }).ToList()
-                })
+                    OrderNumber = o.OrderNumber,
+                    TotalCost = o.GetOrderTotal(),
+                    TimeStamp = o.TimeStamp
+                }
+              )
             };
             return View(customer);
         }

@@ -51,6 +51,22 @@ namespace BookStore.WebApp.Controllers
             return View(models);
         }
 
+        public ActionResult PlaceOrder(int locationID)
+        {
+            var purchase = new PurchaseViewModel();
+            purchase.Customers = _repository.GetCustomers().Select(c => new CustomerViewModel {
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                ID = c.ID
+            });
+            var stock = _repository.GetStocksForLocation(locationID).Select(s => new StockViewModel
+            {
+                Book = s.Book.ISBN,
+                Quantity = s.Quantity
+            });
+            return View();
+        }
+
         // GET: LocationController/Create
         public ActionResult Create()
         {

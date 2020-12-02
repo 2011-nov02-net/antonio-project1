@@ -14,5 +14,8 @@ namespace BookStore.WebApp.Models
         [Display(Name = "Location Name")]
         [Required, RegularExpression("[A-Z].*")]
         public string Name { get; set; }
+
+        public IEnumerable<StockViewModel> Inventory { get; set; }
+
     }
 }

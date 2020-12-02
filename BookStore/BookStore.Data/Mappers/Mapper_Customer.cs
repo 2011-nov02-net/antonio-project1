@@ -51,6 +51,7 @@ namespace BookStore.Data.Mappers
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 ID = customer.Id,
+                MyStoreLocation = Mapper_Location.Map(customer.Location),
                 Orders = customer.Orders.Select(Mapper_Order.MapOrderWithOrderLines)
             };
         }

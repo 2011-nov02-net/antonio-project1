@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BookStore.Domain.Models
@@ -37,7 +38,7 @@ namespace BookStore.Domain.Models
             message = response;
 
             // Just a double check that the amount books checked equal to the books that were attempted to place
-            if (newOrder.Purchase.Count == attempted)
+            if (newOrder.Purchase.ToList().Count == attempted)
             {
                 foreach (OrderLine ol in newOrder.Purchase)
                 {

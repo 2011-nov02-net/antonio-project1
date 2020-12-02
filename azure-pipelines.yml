@@ -18,11 +18,10 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-  - task: UseDotNet@2 
-    displayName: ".NET5"
+  - task: UseDotNet@2
     inputs:
-        version: '5'
-        packageType: sdk
+      packageType: 'sdk'
+      version: '5.0.x'
   - script: dotnet build --configuration $(buildConfiguration)
     displayName: 'dotnet build $(buildConfiguration)'
     workingDirectory: BookStore

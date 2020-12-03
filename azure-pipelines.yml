@@ -17,7 +17,6 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-
 steps:
   - task: UseDotNet@2
     inputs:
@@ -26,10 +25,12 @@ steps:
   - script: dotnet build --configuration $(buildConfiguration)
     displayName: 'dotnet build $(buildConfiguration)'
     workingDirectory: BookStore
-    
+
   - task: PublishBuildArtifacts@1
     inputs:
-      pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
   - task: AzureRmWebAppDeployment@4
     inputs:
       ConnectionType: 'AzureRM'

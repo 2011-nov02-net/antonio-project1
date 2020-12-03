@@ -112,6 +112,13 @@ namespace BookStore.WebApp.Controllers
             }
         }
 
+        public ActionResult AssignCurrentCustomer(int id)
+        {
+            TempData["CustomerID"] = id;
+            TempData["CustomerName"] = _repository.GetCustomers().Where(c => c.ID == id).First().Name;
+            return RedirectToAction(nameof(Index));
+        }
+
         // GET: CustomerController/Delete/5
         public ActionResult Delete(int id)
         {

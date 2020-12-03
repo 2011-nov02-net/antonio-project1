@@ -52,6 +52,9 @@
                 <td>
                     @Html.ActionLink("Order History", "Details", new { id = item.ID })
                 </td>
+                <td>
+                    @Html.ActionLink("Assign Current Customer", "AssignCurrentCustomer", new {id = item.ID })
+                </td>
             </tr>
         }         
     </tbody>

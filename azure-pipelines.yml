@@ -87,6 +87,7 @@ stages:
         cliSources: '.'
       
 - stage: release
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
    - deployment: app_service
      environment: prod

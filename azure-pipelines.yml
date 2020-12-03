@@ -13,7 +13,7 @@ trigger:
     include:
     - azure-pipelines.yml
     - BookStore
-    
+
 stages:
 - stage: build
   jobs:
@@ -67,19 +67,15 @@ stages:
     - script: dotnet publish --configuration $(buildConfiguration) --output publish
       displayName: dotnet publish
       workingDirectory: BookStore
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: 'BookStore/publish'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
-    #- task: AzureRmWebAppDeployment@4
-    #  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    
+    - publish: BookStore/publish
+      artifact: app
+
+    #- task: PublishBuildArtifacts@1
     #  inputs:
-    #    ConnectionType: 'AzureRM'
-    #    azureSubscription: 'Azure subscription 1 (e651ad7e-a3af-4e5b-9734-05a198120bd7)'
-    #    appType: 'webApp'
-    #    WebAppName: 'mvc-mendez'
-    #    packageForLinux: 'BookStore/publish'
+    #    PathtoPublish: 'BookStore/publish'
+    #    ArtifactName: 'drop'
+    #    publishLocation: 'Container'
 
     - task: SonarCloudPrepare@1
       inputs:
@@ -89,3 +85,22 @@ stages:
         configMode: 'manual'
         cliProjectKey: 'antoniomendez017'
         cliSources: '.'
+      
+- stage: release
+  jobs:
+   - deployment: app-service
+     strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: app
+            displayName: download app
+          - task: AzureRmWebAppDeployment@4
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure subscription 1 (e651ad7e-a3af-4e5b-9734-05a198120bd7)'
+              appType: 'webApp'
+              WebAppName: 'mvc-mendez'
+              packageForLinux: 'app'

@@ -29,6 +29,7 @@ steps:
       command: 'build'
       arguments: '--configuration $(buildConfiguration)'
     displayName: 'dotnet build $(buildConfiguration)'
+    workingDirectory: BookStore
 
   - task: PublishBuildArtifacts@1
     inputs:

@@ -20,34 +20,31 @@ variables:
   buildConfiguration: 'Release'
   sdkVersion: 5.0.x
 steps:
-  - task: UseDotNet@2
-    displayName: 'Install .NET Core SDK'
-    inputs:
-      version: $(sdkVersion)
-      performMultiLevelLookup: true
-      includePreviewVersions: true
+- task: UseDotNet@2
+  displayName: dotnet sdk $(sdkVersion)
+  inputs:
+    packageType: 'sdk'
+    version: '$(sdkVersion)'
 
-  - script: dotnet build --configuration $(buildConfiguration)
-    displayName: dotnet build
-    workingDirectory: BookStore
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: dotnet build
+  workingDirectory: BookStore
 
-  - task: DotNetCoreCLI@2
-    displayName: dotnet test
-    inputs:
-      command: 'test'
-      arguments: '--configuration $(buildConfiguration)'
-      publishTestResults: true
-      workingDirectory: 'BookStore'
+- task: DotNetCoreCLI@2
+  displayName: dotnet test
+  inputs:
+    command: 'test'
+    arguments: '--configuration $(buildConfiguration)'
+    publishTestResults: true
+    workingDirectory: 'BookStore'
 
-  - script: dotnet publish -- configuration $(buildConfiguration) --output publish
-    displayName: dotnet publish
-    workingDirectory: BookStore
-    
-  - task: AzureRmWebAppDeployment@4
-    displayName: deploy to azure
-    inputs:
-      ConnectionType: 'AzureRM'
-      azureSubscription: 'Azure subscription 1 (e651ad7e-a3af-4e5b-9734-05a198120bd7)'
-      appType: 'webApp'
-      WebAppName: 'mvc-mendez'
-      packageForLinux: 'BookStore/publish'
+- script: dotnet publish --configuration $(buildConfiguration) --output publish
+  displayName: dotnet publish
+  workingDirectory: BookStore
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription 1 (e651ad7e-a3af-4e5b-9734-05a198120bd7)'
+    appType: 'webApp'
+    WebAppName: 'mvc-mendez'
+    packageForLinux: 'BookStore/publish'

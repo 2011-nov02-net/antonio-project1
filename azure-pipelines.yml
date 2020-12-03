@@ -10,6 +10,7 @@ trigger:
     - master
   paths:
     include:
+    - azure-pipelines.yml
     - BookStore
 
 pool:
@@ -37,11 +38,3 @@ steps:
     displayName: 'Publish Artifact: drop'
     inputs:
       PathtoPublish: '$(build.artifactstagingdirectory)'
-  
-  - task: AzureRmWebAppDeployment@4
-    inputs:
-      ConnectionType: 'AzureRM'
-      azureSubscription: 'Azure subscription 1 (e651ad7e-a3af-4e5b-9734-05a198120bd7)'
-      appType: 'webApp'
-      WebAppName: 'mvc-mendez'
-      packageForLinux: '/home/vsts/work/1/a/**/*.zip'

@@ -29,13 +29,11 @@ steps:
     packageType: 'sdk'
     version: '2.x'
 - task: SonarCloudPrepare@1
-  displayName: sonar prepare analysis
   inputs:
     SonarCloud: 'Sonar Cloud'
     organization: '2011-nov02-net'
     scannerMode: 'MSBuild'
     projectKey: '2011-nov02-net_antonio-project1'
-    projectName: 'BookStore App'
 - task: UseDotNet@2
   displayName: dotnet sdk $(sdkVersion)
   inputs:

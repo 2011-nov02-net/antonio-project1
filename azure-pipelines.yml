@@ -13,75 +13,79 @@ trigger:
     include:
     - azure-pipelines.yml
     - BookStore
+    
+stages:
+- stage: build
+  jobs:
+  - job: build
+    pool:
+      vmImage: 'ubuntu-latest'
 
-pool:
-  vmImage: 'ubuntu-latest'
+    variables:
+      buildConfiguration: 'Release'
+      sdkVersion: 5.0.x
 
-variables:
-  buildConfiguration: 'Release'
-  sdkVersion: 5.0.x
+    steps:
 
-steps:
+    - task: UseDotNet@2
+      displayName: dotnet sdk 2.x
+      inputs:
+        packageType: 'sdk'
+        version: '2.x'
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'sonarcloud'
+        organization: '2011-nov02-net'
+        scannerMode: 'MSBuild'
+        projectKey: '2011-nov02-net_antonio-project1'
+        extraProperties: 'sonar.exclusions=**/lib/**'
+    - task: UseDotNet@2
+      displayName: dotnet sdk $(sdkVersion)
+      inputs:
+        packageType: 'sdk'
+        version: '$(sdkVersion)'
+    - script: dotnet build --configuration $(buildConfiguration)
+      displayName: dotnet build
+      workingDirectory: BookStore
 
-- task: UseDotNet@2
-  displayName: dotnet sdk 2.x
-  inputs:
-    packageType: 'sdk'
-    version: '2.x'
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'sonarcloud'
-    organization: '2011-nov02-net'
-    scannerMode: 'MSBuild'
-    projectKey: '2011-nov02-net_antonio-project1'
-    extraProperties: 'sonar.exclusions=**/lib/**'
-- task: UseDotNet@2
-  displayName: dotnet sdk $(sdkVersion)
-  inputs:
-    packageType: 'sdk'
-    version: '$(sdkVersion)'
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: dotnet build
-  workingDirectory: BookStore
+    - task: SonarCloudAnalyze@1
+      displayName: sonar analysis
 
-- task: SonarCloudAnalyze@1
-  displayName: sonar analysis
+    - task: SonarCloudPublish@1
+      displayName: sonar analysis publish
+      inputs:
+        pollingTimeoutSec: '300'
 
-- task: SonarCloudPublish@1
-  displayName: sonar analysis publish
-  inputs:
-    pollingTimeoutSec: '300'
+    - task: DotNetCoreCLI@2
+      displayName: dotnet test
+      inputs:
+        command: 'test'
+        arguments: '--configuration $(buildConfiguration)'
+        publishTestResults: true
+        workingDirectory: 'BookStore'
 
-- task: DotNetCoreCLI@2
-  displayName: dotnet test
-  inputs:
-    command: 'test'
-    arguments: '--configuration $(buildConfiguration)'
-    publishTestResults: true
-    workingDirectory: 'BookStore'
+    - script: dotnet publish --configuration $(buildConfiguration) --output publish
+      displayName: dotnet publish
+      workingDirectory: BookStore
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: 'BookStore/publish'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+    #- task: AzureRmWebAppDeployment@4
+    #  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    #  inputs:
+    #    ConnectionType: 'AzureRM'
+    #    azureSubscription: 'Azure subscription 1 (e651ad7e-a3af-4e5b-9734-05a198120bd7)'
+    #    appType: 'webApp'
+    #    WebAppName: 'mvc-mendez'
+    #    packageForLinux: 'BookStore/publish'
 
-- script: dotnet publish --configuration $(buildConfiguration) --output publish
-  displayName: dotnet publish
-  workingDirectory: BookStore
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'BookStore/publish'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-#- task: AzureRmWebAppDeployment@4
-#  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-#  inputs:
-#    ConnectionType: 'AzureRM'
-#    azureSubscription: 'Azure subscription 1 (e651ad7e-a3af-4e5b-9734-05a198120bd7)'
-#    appType: 'webApp'
-#    WebAppName: 'mvc-mendez'
-#    packageForLinux: 'BookStore/publish'
-
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SonarCloud'
-    organization: 'antoniomendez017'
-    scannerMode: 'CLI'
-    configMode: 'manual'
-    cliProjectKey: 'antoniomendez017'
-    cliSources: '.'
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'SonarCloud'
+        organization: 'antoniomendez017'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: 'antoniomendez017'
+        cliSources: '.'

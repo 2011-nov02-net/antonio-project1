@@ -44,7 +44,15 @@ steps:
       sourceFolder: '$(Build.SourcesDirectory)'
       contents: '**/$(BuildConfiguration)/**/?(*.exe|*.dll|*.pdb)'
       targetFolder: '$(Build.ArtifactStagingDirectory)'
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: drop'
+  - script: dotnet publish -- configuration $(buildConfiguration) --output publish
+    displayName: dotnet publish
+    workingDirectory: BookStore
+    
+  - task: AzureRmWebAppDeployment@4
+    displayName: deploy to azure
     inputs:
-      PathtoPublish: '$(build.artifactstagingdirectory)'
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'Azure subscription 1 (e651ad7e-a3af-4e5b-9734-05a198120bd7)'
+      appType: 'webApp'
+      WebAppName: 'mvc-mendez'
+      packageForLinux: '$BookStore/publish'

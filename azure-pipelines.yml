@@ -20,6 +20,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   sdkVersion: 5.0.x
+
 steps:
 - task: UseDotNet@2
   displayName: dotnet sdk $(sdkVersion)
@@ -27,9 +28,26 @@ steps:
     packageType: 'sdk'
     version: '$(sdkVersion)'
 
+- task: SonarCloudPrepare@1
+  displayName: sonar prepare analysis
+  inputs:
+    SonarCloud: 'Sonar Cloud'
+    organization: '2011-nov02-net'
+    scannerMode: 'MSBuild'
+    projectKey: '2011-nov02-net_antonio-project1'
+    projectName: 'BookStore App'
+
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: dotnet build
   workingDirectory: BookStore
+
+- task: SonarCloudAnalyze@1
+  displayName: sonar analysis
+
+- task: SonarCloudPublish@1
+  displayName: sonar analysis publish
+  inputs:
+    pollingTimeoutSec: '300'
 
 - task: DotNetCoreCLI@2
   displayName: dotnet test
@@ -49,6 +67,7 @@ steps:
     appType: 'webApp'
     WebAppName: 'mvc-mendez'
     packageForLinux: 'BookStore/publish'
+
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCloud'

@@ -18,17 +18,27 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  sdkVersion: 5.0.x
 steps:
   - task: UseDotNet@2
     displayName: 'Install .NET Core SDK'
     inputs:
-      version: 5.0.x
+      version: $(sdkVersion)
       performMultiLevelLookup: true
       includePreviewVersions: true
 
   - script: dotnet build --configuration $(buildConfiguration)
     displayName: dotnet build
     workingDirectory: BookStore
+
+  - task: DotNetCoreCLI@2
+    displayName: dotnet test
+    inputs:
+      command: 'test'
+      arguments: '--configuration $(buildConfiguration)'
+      publishTestResults: true
+      workingDirectory: 'BookStore'
+
   - task: CopyFiles@2
     inputs:
       sourceFolder: '$(Build.SourcesDirectory)'

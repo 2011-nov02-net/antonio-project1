@@ -2,10 +2,7 @@
 using BookStore.WebApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookStore.WebApp.Controllers
 {
@@ -35,13 +32,14 @@ namespace BookStore.WebApp.Controllers
                 LocationName = orderDetails.LocationPlaced.LocationName,
                 OrderNumber = orderDetails.OrderNumber,
                 TotalCost = orderDetails.GetOrderTotal(),
-                Purchase = orderDetails.Purchase.Select(ol => new OrderLineViewModel {
+                Purchase = orderDetails.Purchase.Select(ol => new OrderLineViewModel
+                {
                     BookISBN = ol.BookISBN,
                     LineCost = ol.LineCost,
                     Quantity = ol.Quantity
                 }).ToList()
             };
-            
+
             return View(vm_orderDetails);
         }
 

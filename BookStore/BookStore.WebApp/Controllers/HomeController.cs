@@ -4,11 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookStore.WebApp.Controllers
 {
@@ -44,10 +42,10 @@ namespace BookStore.WebApp.Controllers
         {
             return _repository.GetAllLocations()
                 .Select(c => new SelectListItem
-            {
-                Value = c.ID.ToString(),
-                Text = c.LocationName
-            }).ToList();
+                {
+                    Value = c.ID.ToString(),
+                    Text = c.LocationName
+                }).ToList();
         }
 
         [HttpPost]

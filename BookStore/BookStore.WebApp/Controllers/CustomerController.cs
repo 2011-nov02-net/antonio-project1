@@ -3,9 +3,7 @@ using BookStore.WebApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookStore.WebApp.Controllers
 {
@@ -24,7 +22,7 @@ namespace BookStore.WebApp.Controllers
             var customers = _repository.GetCustomers().Select(c => new CustomerViewModel
             {
                 ID = c.ID,
-                FirstName =c.FirstName,
+                FirstName = c.FirstName,
                 LastName = c.LastName,
                 MyStoreLocation = c.MyStoreLocation.LocationName
             });
@@ -41,12 +39,14 @@ namespace BookStore.WebApp.Controllers
         public ActionResult Details(int id)
         {
             var customerDetails = _repository.GetOrderHistoryByCustomer(id);
-            var customer = new CustomerViewModel {
+            var customer = new CustomerViewModel
+            {
                 FirstName = customerDetails.FirstName,
                 LastName = customerDetails.LastName,
                 ID = customerDetails.ID,
                 MyStoreLocation = customerDetails.MyStoreLocation.LocationName,
-                Orders = customerDetails.Orders.Select(o => new OrderViewModel {
+                Orders = customerDetails.Orders.Select(o => new OrderViewModel
+                {
                     OrderNumber = o.OrderNumber,
                     TotalCost = o.GetOrderTotal(),
                     TimeStamp = o.TimeStamp
@@ -77,10 +77,11 @@ namespace BookStore.WebApp.Controllers
         {
             try
             {
-                var newCustomer = new Domain.Models.Customer { 
-                FirstName = collection["FirstName"],
-                LastName = collection["LastName"],
-                MyStoreLocation = new Domain.Models.Location { ID = Int32.Parse(collection["allLocations"]) }
+                var newCustomer = new Domain.Models.Customer
+                {
+                    FirstName = collection["FirstName"],
+                    LastName = collection["LastName"],
+                    MyStoreLocation = new Domain.Models.Location { ID = Int32.Parse(collection["allLocations"]) }
                 };
                 _repository.AddACustomer(newCustomer);
                 return RedirectToAction(nameof(Index));

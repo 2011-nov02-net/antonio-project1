@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookStore.WebApp.Models
 {
@@ -22,6 +20,6 @@ namespace BookStore.WebApp.Models
 
         public decimal TotalCost { get; set; }
 
-        public List<OrderLineViewModel> Purchase {get; set;}
+        public List<OrderLineViewModel> Purchase { get; set; }
     }
 }

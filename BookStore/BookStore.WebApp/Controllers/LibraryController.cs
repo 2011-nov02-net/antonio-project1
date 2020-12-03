@@ -2,10 +2,7 @@
 using BookStore.WebApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookStore.WebApp.Controllers
 {
@@ -22,7 +19,7 @@ namespace BookStore.WebApp.Controllers
         public ActionResult Index()
         {
             var library = _repository.FillBookLibrary().Select(b => new BookViewModel
-            { 
+            {
                 ISBN = b.ISBN,
                 AuthorFirstName = b.AuthorFirstName,
                 AuthorLastName = b.AuthorLastName,

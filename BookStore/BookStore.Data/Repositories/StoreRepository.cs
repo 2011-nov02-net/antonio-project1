@@ -1,12 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using BookStore.Data.Entities;
+﻿using BookStore.Data.Entities;
 using BookStore.Data.Mappers;
 using BookStore.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookStore.Data.Repositories
 {
@@ -235,7 +233,8 @@ namespace BookStore.Data.Repositories
                 .FirstOrDefault(l => l.Id == locationID);
 
             // If it doesn't exist then return that the location does not exist.
-            if (dbLocation == null) { 
+            if (dbLocation == null)
+            {
                 return null;
             }
             return dbLocation.Orders.Select(Mapper_Order.MapOrderWithOrderLines);
@@ -250,7 +249,7 @@ namespace BookStore.Data.Repositories
 
             // Attempt to find the customer
             CustomerEntity dbCustomer = _context.Customers
-                .Include(l=> l.Location)
+                .Include(l => l.Location)
                 .Include(o => o.Orders)
                 .ThenInclude(ol => ol.Orderlines)
                 .FirstOrDefault(c => c.Id == id);

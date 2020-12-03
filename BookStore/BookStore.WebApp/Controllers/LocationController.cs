@@ -1,12 +1,8 @@
 ﻿using BookStore.Domain.Interfaces;
-using BookStore.Domain.Models;
 using BookStore.WebApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookStore.WebApp.Controllers
 {
@@ -33,9 +29,10 @@ namespace BookStore.WebApp.Controllers
         // GET: LocationController/Details/5
         public ActionResult Inventory(int id)
         {
-            var model = _repository.GetStocksForLocation(id).Select(s => new StockViewModel {
-            Book = s.Book.Title,
-            Quantity = s.Quantity
+            var model = _repository.GetStocksForLocation(id).Select(s => new StockViewModel
+            {
+                Book = s.Book.Title,
+                Quantity = s.Quantity
             });
             return View(model);
         }
@@ -54,7 +51,8 @@ namespace BookStore.WebApp.Controllers
         public ActionResult PlaceOrder(int locationID)
         {
             var purchase = new PurchaseViewModel();
-            purchase.Customers = _repository.GetCustomers().Select(c => new CustomerViewModel {
+            purchase.Customers = _repository.GetCustomers().Select(c => new CustomerViewModel
+            {
                 FirstName = c.FirstName,
                 LastName = c.LastName,
                 ID = c.ID

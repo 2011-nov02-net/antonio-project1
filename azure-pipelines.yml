@@ -1,5 +1,6 @@
 # ASP.NET Core
 
+
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
@@ -19,16 +20,37 @@ pool:
 variables:
   buildConfiguration: 'Release'
   sdkVersion: 5.0.x
+
 steps:
+
+- task: UseDotNet@2
+  displayName: dotnet sdk 2.x
+  inputs:
+    packageType: 'sdk'
+    version: '2.x'
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'sonarcloud'
+    organization: '2011-nov02-net'
+    scannerMode: 'MSBuild'
+    projectKey: '2011-nov02-net_antonio-project1'
+    extraProperties: 'sonar.exclusions=**/lib/**'
 - task: UseDotNet@2
   displayName: dotnet sdk $(sdkVersion)
   inputs:
     packageType: 'sdk'
     version: '$(sdkVersion)'
-
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: dotnet build
   workingDirectory: BookStore
+
+- task: SonarCloudAnalyze@1
+  displayName: sonar analysis
+
+- task: SonarCloudPublish@1
+  displayName: sonar analysis publish
+  inputs:
+    pollingTimeoutSec: '300'
 
 - task: DotNetCoreCLI@2
   displayName: dotnet test
@@ -48,3 +70,12 @@ steps:
     appType: 'webApp'
     WebAppName: 'mvc-mendez'
     packageForLinux: 'BookStore/publish'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'antoniomendez017'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'antoniomendez017'
+    cliSources: '.'

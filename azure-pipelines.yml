@@ -31,6 +31,10 @@ steps:
       projects: 'BookStore/BookStore.WebApp/*.csproj'
       arguments: '--configuration $(buildConfiguration)'
 
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: $(Build.SourcesDirectory)
+      targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'

@@ -19,9 +19,9 @@ WORKDIR /app/src
 
 # copy just csproj file (the only thing we actually need for dotnet restore)
 COPY *.csproj ./
-COPY BookStore.Data/*.csproj BookStore.Data/
-COPY BookStore.Domain/*.csproj BookStore.Domain/
-COPY BookStore.Tests/*.csproj BookStore.Tests/
+COPY /BookStore.Data/*.csproj BookStore.Data/
+COPY /BookStore.Domain/*.csproj BookStore.Domain/
+COPY /BookStore.Tests/*.csproj BookStore.Tests/
 COPY *.sln ./
 RUN dotnet restore
 

@@ -26,42 +26,6 @@ namespace BookStore.WebApp.Controllers
             return View();
         }
 
-        public ActionResult GetCustomerList(int id)
-        {
-            var customers = _repository.GetCustomers()
-                .Where(a => a.ID == id)
-                        .Select(x => new SelectListItem
-                        {
-                            Value = x.ID.ToString(),
-                            Text = x.FirstName
-                        }).ToList();
-            return Json(customers, System.Web.Mvc.JsonRequestBehavior.AllowGet);
-        }
-
-        public List<SelectListItem> GetLocationList()
-        {
-            return _repository.GetAllLocations()
-                .Select(c => new SelectListItem
-                {
-                    Value = c.ID.ToString(),
-                    Text = c.LocationName
-                }).ToList();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View(collection);
-            }
-        }
-
         public IActionResult Privacy()
         {
             return View();

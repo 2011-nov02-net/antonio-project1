@@ -19,12 +19,18 @@ WORKDIR /app/src
 
 # copy just csproj file (the only thing we actually need for dotnet restore)
 COPY *.csproj ./
+COPY BookStore.Data/*.csproj ./
+COPY BookStore.Domain/*.csproj ./
+COPY BookStore.Tests/*.csproj ./
 RUN dotnet restore
 
 # if the csproj file hasn't changed, we can cache up to this point
 # (saves time on subsequent builds)
 
 # copy rest of build context into /app/src
+COPY BookStore.Data/. ./BookStore.Data
+COPY BookStore.Domain/. ./BookStore.Domain
+COPY BookStore.Tests/. ./BookStore.Tests
 COPY . ./
 
 # publish to /app/publish

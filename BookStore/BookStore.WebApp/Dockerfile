@@ -19,10 +19,10 @@ WORKDIR /app/src
 
 # copy just csproj file (the only thing we actually need for dotnet restore)
 COPY *.csproj ./
-COPY /BookStore.Data/*.csproj BookStore.Data/
-COPY /BookStore.Domain/*.csproj BookStore.Domain/
-COPY /BookStore.Tests/*.csproj BookStore.Tests/
-COPY *.sln ./
+COPY ../*.sln ./
+COPY ../BookStore.Data/*.csproj BookStore.Data/
+COPY ../BookStore.Domain/*.csproj BookStore.Domain/
+COPY ../BookStore.Tests/*.csproj BookStore.Tests/
 RUN dotnet restore
 
 # if the csproj file hasn't changed, we can cache up to this point
@@ -30,6 +30,10 @@ RUN dotnet restore
 
 # copy rest of build context into /app/src
 COPY . ./
+
+RUN dotnet build
+RUN dotnet Testsrun dotnet tool install dotnet-sonarscanner
+RUN dotnet sonarscanner
 
 # publish to /app/publish
 RUN dotnet publish BookStore.WebApp -o ../publish --no-restore

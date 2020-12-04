@@ -32,7 +32,8 @@ RUN dotnet restore
 COPY . ./
 
 # publish to /app/publish
-RUN dotnet publish -o ./publish --no-restore
+# publish to /app/publish
+RUN dotnet publish -o ./publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine AS runtime
 

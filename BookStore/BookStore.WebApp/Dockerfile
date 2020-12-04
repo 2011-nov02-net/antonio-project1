@@ -4,7 +4,7 @@
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
 
-WORKDIR /app/src
+WORKDIR /app
 
 # maybe i need a dotnet global tool like dotnet ef
 # RUN dotnet tool install --global dotnet-ef
@@ -36,7 +36,7 @@ RUN dotnet Testsrun dotnet tool install dotnet-sonarscanner
 RUN dotnet sonarscanner
 
 # publish to /app/publish
-RUN dotnet publish BookStore.WebApp -o ../publish --no-restore
+RUN dotnet publish BookStore.WebApp -o ./publish --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine AS runtime
 

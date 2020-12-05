@@ -10,13 +10,13 @@ namespace BookStore.Data.Entities
         public ShoppingcartEntity()
         {
             Cartitems = new HashSet<CartitemEntity>();
-            Customers = new HashSet<CustomerEntity>();
         }
 
         public int CartId { get; set; }
+        public int CustomerId { get; set; }
         public DateTime? CreateData { get; set; }
 
+        public virtual CustomerEntity Customer { get; set; }
         public virtual ICollection<CartitemEntity> Cartitems { get; set; }
-        public virtual ICollection<CustomerEntity> Customers { get; set; }
     }
 }

@@ -1,0 +1,32 @@
+﻿@model BookStore.WebApp.Models.ShoppingCartViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Your Shopping Cart</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CartItems.First().ISBN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartItems.First().Quantity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.CartItems) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ISBN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

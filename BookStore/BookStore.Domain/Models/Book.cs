@@ -28,6 +28,11 @@ namespace BookStore.Domain.Models
             return Library.Any(b => b.ISBN == candidate);
         }
 
+        public static Book GetBookFromLibrary(string isbn)
+        {
+            return Library.Find(b => b.ISBN == isbn);
+        }
+
         public override string ToString()
         {
             return $"ISBN: {ISBN}\tTitle: {Title}\tAuthor: {AuthorFullName}\tPrice: {Price}";

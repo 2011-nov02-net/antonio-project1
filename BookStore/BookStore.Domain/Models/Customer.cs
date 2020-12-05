@@ -12,6 +12,8 @@ namespace BookStore.Domain.Models
         public virtual Location MyStoreLocation { get; set; }
         public IEnumerable<Order> Orders { get; set; }
 
+        public ShoppingCart MyCart { get; set; }
+
         public void AddOrderToHistory(Order order)
         {
             Orders.ToList().Add(order);

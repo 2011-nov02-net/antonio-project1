@@ -10,16 +10,16 @@ namespace BookStore.Data.Entities
         public CustomerEntity()
         {
             Orders = new HashSet<OrderEntity>();
+            Shoppingcarts = new HashSet<ShoppingcartEntity>();
         }
 
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int? LocationId { get; set; }
-        public int? CartId { get; set; }
 
-        public virtual ShoppingcartEntity Cart { get; set; }
         public virtual LocationEntity Location { get; set; }
         public virtual ICollection<OrderEntity> Orders { get; set; }
+        public virtual ICollection<ShoppingcartEntity> Shoppingcarts { get; set; }
     }
 }

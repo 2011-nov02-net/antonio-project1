@@ -7,7 +7,8 @@ namespace BookStore.Domain.Interfaces
 {
     public interface ICartRepository
     {
-        bool AddCartItem(Customer customer, Book book, int quantity);
-        bool RemoveCartItem(Customer customer, Book book, int quantity);
+        void AddCartItem(Customer customer, Book book, int quantity);
+        void RemoveCartItem(CartItem item);
+        ShoppingCart GetShoppingCartByCustomerID(int customerID);
     }
 }

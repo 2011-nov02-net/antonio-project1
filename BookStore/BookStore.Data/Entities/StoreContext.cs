@@ -31,7 +31,7 @@ namespace BookStore.Data.Entities
             modelBuilder.Entity<BookEntity>(entity =>
             {
                 entity.HasKey(e => e.Isbn)
-                    .HasName("PK__book__99F9D0A5A251392C");
+                    .HasName("PK__book__99F9D0A5ADB0C00B");
 
                 entity.ToTable("book");
 
@@ -60,7 +60,7 @@ namespace BookStore.Data.Entities
             modelBuilder.Entity<CartitemEntity>(entity =>
             {
                 entity.HasKey(e => e.ItemId)
-                    .HasName("PK__cartitem__52020FDD27D4EC88");
+                    .HasName("PK__cartitem__52020FDD1FD3311B");
 
                 entity.ToTable("cartitem");
 
@@ -82,12 +82,12 @@ namespace BookStore.Data.Entities
                 entity.HasOne(d => d.BookIsbnNavigation)
                     .WithMany(p => p.Cartitems)
                     .HasForeignKey(d => d.BookIsbn)
-                    .HasConstraintName("FK__cartitem__book_i__2E06CDA9");
+                    .HasConstraintName("FK__cartitem__book_i__60924D76");
 
                 entity.HasOne(d => d.Shoppingcart)
                     .WithMany(p => p.Cartitems)
                     .HasForeignKey(d => d.ShoppingcartId)
-                    .HasConstraintName("FK__cartitem__shoppi__2FEF161B");
+                    .HasConstraintName("FK__cartitem__shoppi__627A95E8");
             });
 
             modelBuilder.Entity<CustomerEntity>(entity =>
@@ -95,8 +95,6 @@ namespace BookStore.Data.Entities
                 entity.ToTable("customer");
 
                 entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.CartId).HasColumnName("cart_id");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -112,21 +110,16 @@ namespace BookStore.Data.Entities
                     .HasColumnName("location_id")
                     .HasDefaultValueSql("((1))");
 
-                entity.HasOne(d => d.Cart)
-                    .WithMany(p => p.Customers)
-                    .HasForeignKey(d => d.CartId)
-                    .HasConstraintName("FK__customer__cart_i__35A7EF71");
-
                 entity.HasOne(d => d.Location)
                     .WithMany(p => p.Customers)
                     .HasForeignKey(d => d.LocationId)
-                    .HasConstraintName("FK__customer__locati__34B3CB38");
+                    .HasConstraintName("FK__customer__locati__4AA30C57");
             });
 
             modelBuilder.Entity<InventoryEntity>(entity =>
             {
                 entity.HasKey(e => new { e.LocationId, e.BookIsbn })
-                    .HasName("PK__inventor__939A78755FE55290");
+                    .HasName("PK__inventor__939A7875FD390A1B");
 
                 entity.ToTable("inventory");
 
@@ -142,13 +135,13 @@ namespace BookStore.Data.Entities
                     .WithMany(p => p.Inventories)
                     .HasForeignKey(d => d.BookIsbn)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__inventory__book___3A6CA48E");
+                    .HasConstraintName("FK__inventory__book___515009E6");
 
                 entity.HasOne(d => d.Location)
                     .WithMany(p => p.Inventories)
                     .HasForeignKey(d => d.LocationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__inventory__locat__39788055");
+                    .HasConstraintName("FK__inventory__locat__505BE5AD");
             });
 
             modelBuilder.Entity<LocationEntity>(entity =>
@@ -182,13 +175,13 @@ namespace BookStore.Data.Entities
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__orders__customer__3D491139");
+                    .HasConstraintName("FK__orders__customer__542C7691");
 
                 entity.HasOne(d => d.Location)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.LocationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__orders__location__3E3D3572");
+                    .HasConstraintName("FK__orders__location__55209ACA");
             });
 
             modelBuilder.Entity<OrderlineEntity>(entity =>
@@ -214,19 +207,19 @@ namespace BookStore.Data.Entities
                     .WithMany(p => p.Orderlines)
                     .HasForeignKey(d => d.BookIsbn)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__orderline__book___4301EA8F");
+                    .HasConstraintName("FK__orderline__book___59E54FE7");
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.Orderlines)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__orderline__order__420DC656");
+                    .HasConstraintName("FK__orderline__order__58F12BAE");
             });
 
             modelBuilder.Entity<ShoppingcartEntity>(entity =>
             {
                 entity.HasKey(e => e.CartId)
-                    .HasName("PK__shopping__2EF52A27D734B3C9");
+                    .HasName("PK__shopping__2EF52A275C93A451");
 
                 entity.ToTable("shoppingcart");
 
@@ -236,6 +229,14 @@ namespace BookStore.Data.Entities
                     .HasColumnType("datetime")
                     .HasColumnName("create_data")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CustomerId).HasColumnName("customer_id");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.Shoppingcarts)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__shoppingc__custo__5CC1BC92");
             });
 
             OnModelCreatingPartial(modelBuilder);

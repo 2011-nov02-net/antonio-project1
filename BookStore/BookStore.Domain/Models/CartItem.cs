@@ -9,6 +9,5 @@ namespace BookStore.Domain.Models
         public int ID { get; set; }
         public Book Book { get; set; }
         public int Quantity { get; set; }
-        public decimal Cost { get; set; }
     }
 }

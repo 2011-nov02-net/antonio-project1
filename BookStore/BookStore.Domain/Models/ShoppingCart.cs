@@ -1,21 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BookStore.Domain.Models
 {
     public class ShoppingCart
     {
-        IEnumerable<CartItem> CartItems { get; set; }
+        public int ID { get; set; }
+        public IEnumerable<CartItem> CartItems { get; set; }
+        public DateTime DateCreated { get; set; }
         public int NumberOfItemsInCart { get => CartItems.ToList().Count; }
-        public Customer Customer { get; set; }
 
-        public void Checkout(Customer customer)
+        public bool AddToCartAttempt(Book book, int quantity, Location location)
         {
-        
+            if (location.CheckStockForOrderAttempt(book, quantity))
+            {
+                AddToCart(new CartItem { Book = book, Quantity = quantity });
+                return true;
+            }
+            return false;
         }
 
-        public bool AddToCartAttempt(Book book, int quantity, Location location){
-            return location.CheckStockForOrderAttempt(book, quantity);
+        private void AddToCart(CartItem item)
+        {
+            CartItems.ToList().Add(item);
+        }
+
+        public bool RemoveFromCart(CartItem item)
+        {
+            return CartItems.ToList().Remove(item);
         }
     }
 }

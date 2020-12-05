@@ -92,7 +92,10 @@ namespace BookStore.Data.Repositories
             try
             {
                 // if we do then we assign it to the customer
-                dbCustomer = _context.Customers.Include(l => l.Location).First(c => c.Id == id);
+                dbCustomer = _context.Customers
+                    .Include(l => l.Location)
+                    .Include(sc => sc.Shoppingcarts)
+                    .ThenInclude(ci => ci.Cartitems).First(c => c.Id == id);
             }
             catch (InvalidOperationException ex)
             {
@@ -141,9 +144,15 @@ namespace BookStore.Data.Repositories
             // Maybe in the future we could add a way to change the location, but for now the database sets the location to the default 1.
             entity = Mapper_Customer.Map(customer);
 
+            // Create their shopping cart
+            ShoppingcartEntity shoppingcartEntity = new ShoppingcartEntity
+            {
+                CustomerId = entity.Id
+            };
+
             // Add the new entity to the context to send over to the database
             _context.Add(entity);
-
+            _context.Add(shoppingcartEntity);
             // I am using the aproach of sending the data over after each change instead of having a universal save button
             Save();
         }
@@ -175,7 +184,9 @@ namespace BookStore.Data.Repositories
 
         public IEnumerable<Domain.Models.Customer> GetCustomers()
         {
-            return _context.Customers.Include(l => l.Location).Select(Mapper_Customer.MapCustomerWithLocation);
+            return _context.Customers.Include(l => l.Location)
+                    .Include(sc => sc.Shoppingcarts)
+                    .ThenInclude(ci => ci.Cartitems).Select(Mapper_Customer.MapCustomerWithLocation);
         }
         /// <summary>
         /// The purpose of this method is to return the string version of an order, given an order number.

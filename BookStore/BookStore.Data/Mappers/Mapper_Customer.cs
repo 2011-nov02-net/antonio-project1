@@ -31,7 +31,16 @@ namespace BookStore.Data.Mappers
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 ID = customer.Id,
-                MyStoreLocation = Mapper_Location.MapLocationsWithInventory(customer.Location)
+                MyStoreLocation = Mapper_Location.MapLocationsWithInventory(customer.Location),
+                MyCart = customer.Shoppingcarts.Select(sc => new Domain.Models.ShoppingCart {
+                    DateCreated = (System.DateTime)sc.CreateData,
+                    ID = sc.CartId,
+                    CartItems = sc.Cartitems.Select(ci => new Domain.Models.CartItem { 
+                        ID = ci.ItemId,
+                        Book = Domain.Models.Book.GetBookFromLibrary(ci.BookIsbn),
+                        Quantity = ci.Quantity
+                    })
+                }).FirstOrDefault()
             };
         }
 

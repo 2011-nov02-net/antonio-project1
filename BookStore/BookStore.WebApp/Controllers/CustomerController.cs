@@ -94,8 +94,10 @@ namespace BookStore.WebApp.Controllers
 
         public ActionResult AssignCurrentCustomer(int id)
         {
+            var customer = _repository.GetCustomers().Where(c => c.ID == id).First();
             TempData["CustomerID"] = id;
-            TempData["CustomerName"] = _repository.GetCustomers().Where(c => c.ID == id).First().Name;
+            TempData["CustomerName"] = customer.Name;
+            TempData["TotalCartItems"] = customer.MyCart.CartItems.ToList().Count();
             return RedirectToAction(nameof(Index));
         }
     }

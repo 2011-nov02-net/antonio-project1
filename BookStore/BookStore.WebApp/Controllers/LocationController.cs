@@ -2,6 +2,7 @@
 using BookStore.WebApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 
 namespace BookStore.WebApp.Controllers
@@ -9,10 +10,12 @@ namespace BookStore.WebApp.Controllers
     public class LocationController : Controller
     {
         private readonly IStoreRepository _repository;
+        private readonly ILogger _logger;
 
-        public LocationController(IStoreRepository repository)
+        public LocationController(ILogger<LocationController> logger, IStoreRepository repository)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         // GET: LocationController

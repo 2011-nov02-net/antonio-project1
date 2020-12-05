@@ -2,6 +2,7 @@
 using BookStore.WebApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 
 namespace BookStore.WebApp.Controllers
@@ -9,10 +10,11 @@ namespace BookStore.WebApp.Controllers
     public class OrderController : Controller
     {
         private readonly IStoreRepository _repository;
-
-        public OrderController(IStoreRepository repository)
+        private readonly ILogger _logger;
+        public OrderController(ILogger<OrderController> logger, IStoreRepository repository)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         // GET: OrderController

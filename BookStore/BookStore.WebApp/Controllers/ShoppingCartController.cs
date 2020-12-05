@@ -2,6 +2,7 @@
 using BookStore.WebApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,13 @@ namespace BookStore.WebApp.Controllers
     {
         private readonly ICartRepository _cartrepository;
         private readonly IStoreRepository _repository;
+        private readonly ILogger _logger;
 
-        public ShoppingCartController(IStoreRepository storerepo, ICartRepository repository)
+        public ShoppingCartController(ILogger<ShoppingCartController> logger, IStoreRepository storerepo, ICartRepository repository)
         {
             _cartrepository = repository;
             _repository = storerepo;
+            _logger = logger;
         }
         // GET: ShoppingCart
         public ActionResult Index()

@@ -2,6 +2,7 @@
 using BookStore.WebApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 
@@ -11,9 +12,11 @@ namespace BookStore.WebApp.Controllers
     {
         private readonly IStoreRepository _repository;
 
-        public CustomerController(IStoreRepository repository)
+        private readonly ILogger<CustomerController> _logger;
+        public CustomerController(ILogger<CustomerController> logger, IStoreRepository repository)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         // GET: CustomerController

@@ -1,9 +1,12 @@
+drop table if exists cartitem;
+drop table if exists shoppingcart;
 drop table if exists orderline;
 drop table if exists orders;
 drop table if exists inventory;
 drop table if exists book;
 drop table if exists customer;
 drop table if exists location;
+
 
 create table location(
 	id int primary key identity,

@@ -29,6 +29,7 @@ namespace BookStore.WebApp.Controllers
             var shoppingCart = _cartrepository.GetShoppingCartByCustomerID(Int32.Parse(TempData.Peek("CustomerID").ToString()));
             var cart = new ShoppingCartViewModel
             {
+                ID = shoppingCart.ID,
                 CartItems = shoppingCart.CartItems.Select(ci => new CartItemViewModel
                 {
                     Quantity = ci.Quantity,
@@ -42,35 +43,57 @@ namespace BookStore.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RemoveFromCart(IFormCollection collection)
         {
-            var customer = _repository.GetCustomers().Where(c => c.ID == Int32.Parse(TempData.Peek("CustomerID").ToString())).First();
-            var book = Domain.Models.Book.GetBookFromLibrary(collection["isbn"]);
-            int quantity = Int32.Parse(collection["qty"]);
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var customer = _repository.GetCustomers().Where(c => c.ID == Int32.Parse(TempData.Peek("CustomerID").ToString())).First();
+                    var book = Domain.Models.Book.GetBookFromLibrary(collection["isbn"]);
+                    int quantity = Int32.Parse(collection["qty"]);
 
-            _cartrepository.RemoveCartItem(customer, book, quantity);
+                    _cartrepository.RemoveCartItem(customer, book, quantity);
 
-            TempData["TotalCartItems"] = customer.GetCartItemCount();
-            return RedirectToAction(nameof(Index));
+                    TempData["TotalCartItems"] = customer.GetCartItemCount();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View();
+            }
+            catch (Exception)
+            {
+                return View();
+            }
         }
 
         public ActionResult PlaceOrder()
         {
-            _repository.FillBookLibrary();
-            Domain.Models.ShoppingCart shoppingCart = _cartrepository.GetShoppingCartByCustomerID(Int32.Parse(TempData.Peek("CustomerID").ToString()));
-            Domain.Models.Order orderAttempt = new Domain.Models.Order();
-            foreach (var item in shoppingCart.CartItems)
+            try
             {
-                orderAttempt.AddNewOrderLine($"{item.Book.ISBN}, {item.Quantity}");
+                if (ModelState.IsValid)
+                {
+                    _repository.FillBookLibrary();
+                    Domain.Models.ShoppingCart shoppingCart = _cartrepository.GetShoppingCartByCustomerID(Int32.Parse(TempData.Peek("CustomerID").ToString()));
+                    Domain.Models.Order orderAttempt = new Domain.Models.Order();
+                    foreach (var item in shoppingCart.CartItems)
+                    {
+                        orderAttempt.AddNewOrderLine($"{item.Book.ISBN}, {item.Quantity}");
+                    }
+                    orderAttempt.CustomerPlaced = _repository.GetCustomers().Where(c => c.ID == Int32.Parse(TempData.Peek("CustomerID").ToString())).First();
+                    orderAttempt.LocationPlaced = orderAttempt.CustomerPlaced.MyStoreLocation;
+
+                    orderAttempt.LocationPlaced.AttemptOrderAtLocation(orderAttempt);
+
+                    _repository.PlaceAnOrderForACustomer(orderAttempt);
+                    _cartrepository.EmptyCart(orderAttempt.CustomerPlaced);
+                    TempData["TotalCartItems"] = orderAttempt.CustomerPlaced.GetCartItemCount();
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return View();
             }
-            orderAttempt.CustomerPlaced = _repository.GetCustomers().Where(c => c.ID == Int32.Parse(TempData.Peek("CustomerID").ToString())).First();
-            orderAttempt.LocationPlaced = orderAttempt.CustomerPlaced.MyStoreLocation;
-
-            orderAttempt.LocationPlaced.AttemptOrderAtLocation(orderAttempt);
-
-            _repository.PlaceAnOrderForACustomer(orderAttempt);
-            _cartrepository.EmptyCart(orderAttempt.CustomerPlaced);
-            TempData["TotalCartItems"] = orderAttempt.CustomerPlaced.GetCartItemCount();
-            return RedirectToAction(nameof(Index));
-
+            catch (Exception)
+            {
+                return View();
+            }
         }
     }
 }

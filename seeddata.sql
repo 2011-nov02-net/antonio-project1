@@ -6,9 +6,13 @@ insert into location (name) values ('Orlando, FL');
 insert into location (name) values ('Morgantown, WV');
 
 insert into customer (first_name, last_name) values ('Antonio','Mendez');
+insert into shoppingcart (customer_id) values (1);
 insert into customer (first_name, last_name) values ('Darko','Mendez');
+insert into shoppingcart (customer_id) values (2);
 insert into customer (first_name, last_name) values ('Gavin','Mendez');
+insert into shoppingcart (customer_id) values (3);
 insert into customer (first_name, last_name) values ('Kayla','Mendez'); 
+insert into shoppingcart (customer_id) values (4);
 
 
 insert into book (isbn, name, price, author_first_name, author_last_name) values ('978-0525948926', 'Atlas Shrugged', 29.99, 'Ayn', 'Rand');
@@ -64,8 +68,8 @@ insert into orders (customer_id, location_id) values (2,1);
 
 insert into orderline(order_id, book_isbn, quantity, total) values (1, '978-0525948926',1, 29.99)
 insert into orderline(order_id, book_isbn, quantity, total) values (1, '978-0452286757',1, 27.99)
-insert into orderline(order_id, book_isbn, quantity, total) values (1, '978-1640320437',1)
+insert into orderline(order_id, book_isbn, quantity, total) values (1, '978-1640320437',1, 9.99)
 
 
-insert into orderline(order_id, book_isbn, quantity) values (2, '978-0553103540',1, 9.99)
-insert into orderline(order_id, book_isbn, quantity) values (2, '978-1617294563',23, 45.28)
+insert into orderline(order_id, book_isbn, quantity, total) values (2, '978-0553103540',1, 9.99)
+insert into orderline(order_id, book_isbn, quantity, total) values (2, '978-1617294563',23, 45.28)

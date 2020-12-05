@@ -56,14 +56,24 @@ namespace BookStore.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddToCart(IFormCollection collection)
         {
-            var customer = _repository.GetCustomers().Where(c => c.ID == Int32.Parse(TempData.Peek("CustomerID").ToString())).First();
-            var book = Domain.Models.Book.GetBookFromLibrary(collection["isbn"]);
-            int quantity = Int32.Parse(collection["qty"]);
+            try
+            {
+                if (ModelState.IsValid) 
+                {
+                    var customer = _repository.GetCustomers().Where(c => c.ID == Int32.Parse(TempData.Peek("CustomerID").ToString())).First();
+                    var book = Domain.Models.Book.GetBookFromLibrary(collection["isbn"]);
+                    int quantity = Int32.Parse(collection["qty"]);
 
-            _cartrepository.AddCartItem(customer, book, quantity);
+                    _cartrepository.AddCartItem(customer, book, quantity);
 
-            TempData["TotalCartItems"] = customer.GetCartItemCount();
+                    TempData["TotalCartItems"] = customer.GetCartItemCount();
+                    return RedirectToAction(nameof(Index));
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception) { 
             return RedirectToAction(nameof(Index));
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace BookStore.WebApp.Controllers
         }
 
         // GET: CustomerController
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString = null)
         {
             var customers = _repository.GetCustomers().Select(c => new CustomerViewModel
             {

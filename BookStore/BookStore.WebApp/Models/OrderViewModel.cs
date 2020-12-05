@@ -18,6 +18,7 @@ namespace BookStore.WebApp.Models
         [Display(Name = "Location")]
         public string LocationName { get; set; }
 
+        [Display(Name = "Order Total")]
         public decimal TotalCost { get; set; }
 
         public List<OrderLineViewModel> Purchase { get; set; }

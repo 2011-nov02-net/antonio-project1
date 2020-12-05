@@ -7,6 +7,7 @@ namespace BookStore.WebApp.Models
 {
     public class ShoppingCartViewModel
     {
-        public IEnumerable<CartItemViewModel> CartItems { get; set; }
+     public int ID { get; set; } 
+     public IEnumerable<CartItemViewModel> CartItems { get; set; }
     }
 }

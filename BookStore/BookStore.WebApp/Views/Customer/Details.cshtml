@@ -42,6 +42,16 @@
         </dd>
     </dl>
 </div>
+<h3>Order History</h3>
+@if (Model.Orders.Count() == 0)
+{
+<div>
+    <p>There are no previous orders.</p>
+</div>
+}
+else
+{
+
 <table class="table">
     <thead>
         <tr>
@@ -71,6 +81,7 @@
         </tr>
     }
 </table>
+}
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

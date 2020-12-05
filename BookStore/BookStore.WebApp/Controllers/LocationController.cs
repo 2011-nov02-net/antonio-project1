@@ -16,13 +16,14 @@ namespace BookStore.WebApp.Controllers
         }
 
         // GET: LocationController
-        public ActionResult Index()
+        public ActionResult Index(string message = null)
         {
             var viewModel = _repository.GetAllLocations().Select(l => new LocationViewModel
             {
                 Id = l.ID,
                 Name = l.LocationName
             });
+            ViewData["LocationErrorMessage"] = message;
             return View(viewModel);
         }
 
@@ -34,6 +35,11 @@ namespace BookStore.WebApp.Controllers
                 Book = s.Book.Title,
                 Quantity = s.Quantity
             });
+
+            if (model.ToList().Count == 0)
+            {
+                return RedirectToAction(nameof(Index), new { message = $"Could not find any inventory associated with Location ID: {id}" });
+            }
             return View(model);
         }
 
@@ -45,6 +51,7 @@ namespace BookStore.WebApp.Controllers
                 TimeStamp = o.TimeStamp,
                 TotalCost = o.Purchase.Sum(p => p.LineCost)
             });
+            TempData["LocationID"] = id;
             return View(models);
         }
     }

@@ -23,11 +23,15 @@ namespace BookStore.WebApp.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("The main page has been accessed");
+
             return View();
         }
 
         public IActionResult Privacy()
         {
+            _logger.LogInformation("The privacy page has been accessed");
+
             return View();
         }
 

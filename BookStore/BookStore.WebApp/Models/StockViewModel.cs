@@ -6,10 +6,12 @@ namespace BookStore.WebApp.Models
     {
 
         [Display(Name = "Book Title")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+
         public string Book { get; set; }
 
         [Display(Name = "In Stock")]
-        [Required, RegularExpression("[A-Z].*")]
+        [RegularExpression("^[0-9]", ErrorMessage = "Must be a number.")]
         public int Quantity { get; set; }
     }
 }

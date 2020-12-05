@@ -44,36 +44,37 @@
 </div>
 @if (Model.Purchase != null)
 {
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Purchase[0].BookISBN)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Purchase[0].Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Purchase[0].LineCost)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-
-        @for (var i = 0; i < Model.Purchase.Count(); i++)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(model => Model.Purchase[i].BookISBN)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => Model.Purchase[i].Quantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => Model.Purchase[i].LineCost)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Purchase[0].BookISBN)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Purchase[0].Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Purchase[0].LineCost)
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
-        }
+        </thead>
+        <tbody>
+
+            @for (var i = 0; i < Model.Purchase.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => Model.Purchase[i].BookISBN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Purchase[i].Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model.Purchase[i].LineCost)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@Html.ActionLink("Back to List", "OrderHistory", "Location", new {id = Int32.Parse(TempData.Peek("LocationID").ToString()) })

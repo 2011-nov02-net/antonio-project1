@@ -75,6 +75,8 @@ namespace BookStore.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
         {
+            try
+            {
                 var newCustomer = new Domain.Models.Customer
                 {
                     FirstName = collection["FirstName"],
@@ -82,8 +84,12 @@ namespace BookStore.WebApp.Controllers
                     MyStoreLocation = new Domain.Models.Location { ID = Int32.Parse(collection["allLocations"]) }
                 };
                 _repository.AddACustomer(newCustomer);
+                return View(Details(newCustomer.ID));
+            }
+            catch
+            {
                 return RedirectToAction(nameof(Index));
-            
+            }
         }
 
         public ActionResult AssignCurrentCustomer(int id)

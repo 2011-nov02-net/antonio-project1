@@ -35,6 +35,8 @@ namespace BookStore.WebApp.Controllers
             return View(cart);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult RemoveFromCart(IFormCollection collection)
         {
             var customer = _repository.GetCustomers().Where(c => c.ID == Int32.Parse(TempData.Peek("CustomerID").ToString())).First();
@@ -66,75 +68,6 @@ namespace BookStore.WebApp.Controllers
             TempData["TotalCartItems"] = orderAttempt.CustomerPlaced.GetCartItemCount();
             return RedirectToAction(nameof(Index));
 
-        }
-
-        // GET: ShoppingCart/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: ShoppingCart/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ShoppingCart/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ShoppingCart/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ShoppingCart/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ShoppingCart/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ShoppingCart/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

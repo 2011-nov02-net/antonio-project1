@@ -49,6 +49,8 @@ namespace BookStore.WebApp.Controllers
             return View(book);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddToCart(IFormCollection collection)
         {
             var customer = _repository.GetCustomers().Where(c => c.ID == Int32.Parse(TempData.Peek("CustomerID").ToString())).First();
@@ -59,69 +61,6 @@ namespace BookStore.WebApp.Controllers
 
             TempData["TotalCartItems"] = customer.GetCartItemCount();
             return RedirectToAction(nameof(Index));
-        }
-
-        // GET: LibraryController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: LibraryController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: LibraryController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: LibraryController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: LibraryController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: LibraryController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

@@ -9,7 +9,7 @@ namespace BookStore.Domain.Models
         private const int ordercap = 250;
         public Location LocationPlaced { get; set; }
         public Customer CustomerPlaced { get; set; }
-        public List<OrderLine> Purchase { get; set; }
+        public List<OrderLine> Purchase { get; set; } = new List<OrderLine>();
         public DateTime TimeStamp { get; set; }
         public static IEnumerable<Order> OrderHistory { get; set; }
         public int OrderNumber { get; set; }
@@ -40,7 +40,7 @@ namespace BookStore.Domain.Models
 
             // add the orderline to this order
             newOrderLine.Quantity = Int32.Parse(lineFiltered[1]);
-            Purchase.ToList().Add(newOrderLine);
+            Purchase.Add(newOrderLine);
             return true;
         }
 

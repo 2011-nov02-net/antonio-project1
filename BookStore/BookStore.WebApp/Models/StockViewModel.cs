@@ -8,7 +8,7 @@ namespace BookStore.WebApp.Models
         [Display(Name = "Book Title")]
         public string Book { get; set; }
 
-        [Display(Name = "Quantity")]
+        [Display(Name = "In Stock")]
         [Required, RegularExpression("[A-Z].*")]
         public int Quantity { get; set; }
     }

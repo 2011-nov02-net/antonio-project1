@@ -14,6 +14,14 @@ namespace BookStore.Domain.Models
 
         public ShoppingCart MyCart { get; set; }
 
+        public int GetCartItemCount() {
+            int count = 0;
+            foreach (var cartItem in MyCart.CartItems) {
+                count += cartItem.Quantity;
+            }
+            return count;
+        }
+
         public void AddOrderToHistory(Order order)
         {
             Orders.ToList().Add(order);

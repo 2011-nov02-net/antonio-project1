@@ -17,6 +17,8 @@ namespace BookStore.Domain.Interfaces
         IEnumerable<Models.Stock> GetStocksForLocation(int locationID);
         IEnumerable<Domain.Models.Book> FillBookLibrary();
         IEnumerable<Domain.Models.Customer> GetCustomers();
+        Book GetBook(string isbn);
+        Dictionary<string, int> GetLocationsIfStocksExistForISBN(int locationID, string search);
 
     }
 }

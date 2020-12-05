@@ -31,8 +31,11 @@ namespace BookStore.Data.Repositories
                 Quantity = quantity,
                 ShoppingcartId = customer.MyCart.ID
             };
+            var locationInventory = _context.Inventories.First(l => l.LocationId == customer.MyStoreLocation.ID && l.BookIsbn == book.ISBN);
 
+            locationInventory.Quantity -= quantity;
             // Add the new entity to the context to send over to the database
+
             _context.Add(db_cartItem);
 
             // I am using the aproach of sending the data over after each change instead of having a universal save button
@@ -42,7 +45,7 @@ namespace BookStore.Data.Repositories
         public ShoppingCart GetShoppingCartByCustomerID(int customerID)
         {
             var db_cart = _context.Shoppingcarts.Include(i => i.Cartitems).FirstOrDefault(sc => sc.CustomerId == customerID);
-
+            
             return new ShoppingCart
             {
                 ID = db_cart.CartId,
@@ -56,16 +59,29 @@ namespace BookStore.Data.Repositories
             };
         }
 
-        public void RemoveCartItem(CartItem item)
+        public void RemoveCartItem(Customer customer, Book book, int quantity)
         {
             var db_cartItem_rm = new CartitemEntity
             {
-                ItemId = item.ID
+                ItemId = customer.MyCart.CartItems.First(b=>b.Book.ISBN == book.ISBN).ID
             };
 
-            _context.Attach(db_cartItem_rm);
-            _context.Remove(db_cartItem_rm);
+            var db_location = _context.Inventories.First(i => i.LocationId == customer.MyStoreLocation.ID);
 
+            db_location.Quantity += quantity;
+
+            _context.Set<CartitemEntity>().Remove(db_cartItem_rm);
+
+            _context.SaveChanges();
+        }
+        public void EmptyCart(Customer customer)
+        {
+            IQueryable db_cart = _context.Cartitems.Where(c => c.Shoppingcart.CartId == customer.MyCart.ID);
+
+            foreach (var item in db_cart)
+            {
+                _context.Remove(item);
+            }
             _context.SaveChanges();
         }
     }

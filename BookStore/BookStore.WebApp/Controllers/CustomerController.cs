@@ -97,7 +97,8 @@ namespace BookStore.WebApp.Controllers
             var customer = _repository.GetCustomers().Where(c => c.ID == id).First();
             TempData["CustomerID"] = id;
             TempData["CustomerName"] = customer.Name;
-            TempData["TotalCartItems"] = customer.MyCart.CartItems.ToList().Count();
+            TempData["MyStoreID"] = customer.MyStoreLocation.ID;
+            TempData["TotalCartItems"] = customer.GetCartItemCount();
             return RedirectToAction(nameof(Index));
         }
     }

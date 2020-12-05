@@ -25,6 +25,7 @@ namespace BookStore.WebApp
             services.AddDbContext<StoreContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("StoreDb")));
             services.AddScoped<IStoreRepository, StoreRepository>();
+            services.AddScoped<ICartRepository, CartRepository>();
 
             services.AddControllersWithViews();
         }

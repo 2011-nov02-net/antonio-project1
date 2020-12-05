@@ -41,6 +41,30 @@ namespace BookStore.Data.Repositories
             return dbLocations.Select(Mapper_Location.Map);
         }
 
+        public Dictionary<string, int> GetLocationsIfStocksExistForISBN(int locationID, string search)
+        {
+            IEnumerable<Entities.LocationEntity> dbLocations = _context.Locations
+                .Include(s => s.Inventories);
+
+            Dictionary<string, int> nameWithQuantity = new Dictionary<string, int>();
+            foreach (var l in dbLocations)
+            {
+                string name = l.Name;
+                if (l.Id == locationID)
+                {
+                    foreach (var s in l.Inventories)
+                    {
+                        if (s.Quantity > 0 && s.BookIsbn.Equals(search))
+                        {
+                            nameWithQuantity[name] = (int)s.Quantity;
+                        }
+                    }
+                }
+            }
+
+            return nameWithQuantity;
+        }
+
         /// <summary>
         /// The purpose of this class is to insert new a new order into the database. 
         /// </summary>
@@ -288,6 +312,10 @@ namespace BookStore.Data.Repositories
                 Domain.Models.Book.Library.Add(Mapper_Book.Map(b));
             }
             return dbBooks.Select(Mapper_Book.Map);
+        }
+        public Domain.Models.Book GetBook(string isbn)
+        {
+            return Mapper_Book.Map(_context.Books.Where(b => b.Isbn.Equals(isbn)).FirstOrDefault());
         }
 
         /// <summary>

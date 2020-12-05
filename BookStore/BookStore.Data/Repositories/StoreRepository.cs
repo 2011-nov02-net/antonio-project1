@@ -168,14 +168,15 @@ namespace BookStore.Data.Repositories
             // Maybe in the future we could add a way to change the location, but for now the database sets the location to the default 1.
             entity = Mapper_Customer.Map(customer);
 
+            // Add the new entity to the context to send over to the database
+            _context.Add(entity);
+            Save();
+
             // Create their shopping cart
             ShoppingcartEntity shoppingcartEntity = new ShoppingcartEntity
             {
                 CustomerId = entity.Id
             };
-
-            // Add the new entity to the context to send over to the database
-            _context.Add(entity);
             _context.Add(shoppingcartEntity);
             // I am using the aproach of sending the data over after each change instead of having a universal save button
             Save();

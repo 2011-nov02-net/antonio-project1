@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
@@ -9,6 +10,7 @@ namespace BookStore.Data.Entities
         public CustomerEntity()
         {
             Orders = new HashSet<OrderEntity>();
+            Shoppingcarts = new HashSet<ShoppingcartEntity>();
         }
 
         public int Id { get; set; }
@@ -18,5 +20,6 @@ namespace BookStore.Data.Entities
 
         public virtual LocationEntity Location { get; set; }
         public virtual ICollection<OrderEntity> Orders { get; set; }
+        public virtual ICollection<ShoppingcartEntity> Shoppingcarts { get; set; }
     }
 }

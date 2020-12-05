@@ -271,8 +271,8 @@ namespace BookStore.Data.Repositories
         /// </summary>
         public IEnumerable<Domain.Models.Book> FillBookLibrary()
         {
-            IEnumerable<BookEntity> dbBooks = _context.Books.ToList();
-            foreach (BookEntity b in dbBooks)
+            IEnumerable<Entities.BookEntity> dbBooks = _context.Books.ToList();
+            foreach (Entities.BookEntity b in dbBooks)
             {
                 Domain.Models.Book.Library.Add(Mapper_Book.Map(b));
             }

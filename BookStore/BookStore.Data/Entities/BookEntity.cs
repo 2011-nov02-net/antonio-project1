@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
@@ -8,6 +9,7 @@ namespace BookStore.Data.Entities
     {
         public BookEntity()
         {
+            Cartitems = new HashSet<CartitemEntity>();
             Inventories = new HashSet<InventoryEntity>();
             Orderlines = new HashSet<OrderlineEntity>();
         }
@@ -18,6 +20,7 @@ namespace BookStore.Data.Entities
         public string AuthorFirstName { get; set; }
         public string AuthorLastName { get; set; }
 
+        public virtual ICollection<CartitemEntity> Cartitems { get; set; }
         public virtual ICollection<InventoryEntity> Inventories { get; set; }
         public virtual ICollection<OrderlineEntity> Orderlines { get; set; }
     }

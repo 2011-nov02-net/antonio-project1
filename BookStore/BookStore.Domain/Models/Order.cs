@@ -32,15 +32,8 @@ namespace BookStore.Domain.Models
             newOrderLine.BookISBN = lineFiltered[0];
 
             // make sure that the quantity is a number
-            try
-            {
-                Int32.Parse(lineFiltered[1]);
-                if (Int32.Parse(lineFiltered[1]) >= ordercap)
-                {
-                    return false;
-                }
-            }
-            catch (Exception ex)
+            Int32.Parse(lineFiltered[1]);
+            if (Int32.Parse(lineFiltered[1]) >= ordercap)
             {
                 return false;
             }

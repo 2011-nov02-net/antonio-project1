@@ -18,22 +18,19 @@ namespace BookStore.Domain.Models
         /// <param name="newOrder"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public bool AttemptOrderAtLocation(Order newOrder, out string message)
+        public bool AttemptOrderAtLocation(Order newOrder)
         {
-            string response = "";
             int attempted = 0;
 
             // We check each orderline that exists to get the isbns that were in the order
             foreach (OrderLine ol in newOrder.Purchase)
             {
                 // Check each one if the book is even in the library and if there is enough
-                if (CheckStockForOrderAttempt(Book.Library.Find(b => b.ISBN.Contains(ol.BookISBN)), ol.Quantity, out response))
+                if (CheckStockForOrderAttempt(Book.Library.Find(b => b.ISBN.Contains(ol.BookISBN)), ol.Quantity))
                 {
-                    response = "\n" + response;
                     attempted++;
                 }
             }
-            message = response;
 
             // Just a double check that the amount books checked equal to the books that were attempted to place
             if (newOrder.Purchase.ToList().Count == attempted)
@@ -59,7 +56,7 @@ namespace BookStore.Domain.Models
         /// <param name="amount"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public bool CheckStockForOrderAttempt(Book book, int amount, out string message)
+        public bool CheckStockForOrderAttempt(Book book, int amount)
         {
             foreach (Stock i in Inventory)
             {
@@ -67,14 +64,11 @@ namespace BookStore.Domain.Models
                 {
                     if (i.CheckStock(amount))
                     {
-                        message = $"Enough Books exist for: {book}.";
                         return true;
                     }
-                    message = "There is not enough Books!";
                     return false;
                 }
             }
-            message = $"Could not find bookISBN {book.ISBN} in inventory.";
             return false;
         }
 

@@ -39,6 +39,7 @@ stages:
         scannerMode: 'MSBuild'
         projectKey: '2011-nov02-net_antonio-project1'
         extraProperties: 'sonar.exclusions=**/lib/**'
+
     - task: UseDotNet@2
       displayName: dotnet sdk $(sdkVersion)
       inputs:
@@ -55,6 +56,12 @@ stages:
       displayName: sonar analysis publish
       inputs:
         pollingTimeoutSec: '300'
+
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        summaryFileLocation: $(Build.SourcesDirectory)/TestResults/*/*.cobertura.xml
+        reportDirectory: $(Build.SourcesDirectory)/TestResults/*
+        codecoverageTool: cobertura    
 
     - task: DotNetCoreCLI@2
       displayName: dotnet test

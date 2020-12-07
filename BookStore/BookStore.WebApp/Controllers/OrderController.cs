@@ -24,7 +24,7 @@ namespace BookStore.WebApp.Controllers
         }
 
         // GET: OrderController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int id, bool justPlaced = false)
         {
             var orderDetails = _repository.GetDetailsForOrder(id);
             var vm_orderDetails = new OrderViewModel
@@ -41,7 +41,10 @@ namespace BookStore.WebApp.Controllers
                     Quantity = ol.Quantity
                 }).ToList()
             };
-
+            if (justPlaced)
+            {
+                TempData["NewOrder"] = "Order Confirmed!";
+            }
             return View(vm_orderDetails);
         }
     }

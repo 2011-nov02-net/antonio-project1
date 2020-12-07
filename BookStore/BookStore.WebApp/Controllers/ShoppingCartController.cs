@@ -82,10 +82,10 @@ namespace BookStore.WebApp.Controllers
 
                     orderAttempt.LocationPlaced.AttemptOrderAtLocation(orderAttempt);
 
-                    _repository.PlaceAnOrderForACustomer(orderAttempt);
+                    int newOrderNumber = _repository.PlaceAnOrderForACustomer(orderAttempt);
                     _cartrepository.EmptyCart(orderAttempt.CustomerPlaced);
                     TempData["TotalCartItems"] = orderAttempt.CustomerPlaced.GetCartItemCount();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", "Order", new { id = newOrderNumber, justPlaced = true });
                 }
 
                 return View();

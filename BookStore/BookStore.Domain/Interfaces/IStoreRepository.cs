@@ -6,7 +6,7 @@ namespace BookStore.Domain.Interfaces
     public interface IStoreRepository
     {
         IEnumerable<Models.Location> GetAllLocations(string search = null);
-        void PlaceAnOrderForACustomer(Order m_order);
+        int PlaceAnOrderForACustomer(Domain.Models.Order m_order);
         public Models.Customer GetCustomerWithLocationAndInventory(int id);
         void AddACustomer(Customer customer);
         public IEnumerable<Models.Customer> FindCustomerByName(string[] search);

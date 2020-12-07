@@ -69,7 +69,7 @@ namespace BookStore.Data.Repositories
         /// The purpose of this class is to insert new a new order into the database. 
         /// </summary>
         /// <param name="Order">Type Domain.Models.Order. It will contain all data about customer, location, and a list of orderlines.</param>
-        public void PlaceAnOrderForACustomer(Domain.Models.Order m_order)
+        public int PlaceAnOrderForACustomer(Domain.Models.Order m_order)
         {
             // Create the Entity item to be put into the database
             Entities.OrderEntity order;
@@ -101,6 +101,7 @@ namespace BookStore.Data.Repositories
 
             // Save those changes
             Save();
+            return order.Id;
         }
 
         /// <summary>

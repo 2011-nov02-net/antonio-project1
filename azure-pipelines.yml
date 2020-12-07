@@ -40,7 +40,8 @@ stages:
         projectKey: '2011-nov02-net_antonio-project1'
         extraProperties: |
          'sonar.exclusions=**/lib/**'
-         'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/coverage/coverage.opencover.xml'
+          sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)\**\*.trx
+          sonar.cs.vscoveragexml.reportsPaths=$(Agent.TempDirectory)\**\*.coveragexml
 
     - task: UseDotNet@2
       displayName: dotnet sdk $(sdkVersion)
@@ -69,7 +70,9 @@ stages:
       displayName: dotnet test
       inputs:
         command: 'test'
-        arguments: '--configuration $(buildConfiguration)'
+        arguments: |
+          '--configuration $(buildConfiguration)'
+          '--collect "Code Coverage"'
         publishTestResults: true
         workingDirectory: 'BookStore'
 

@@ -61,9 +61,9 @@ stages:
 
     - task: PublishCodeCoverageResults@1
       inputs:
-        summaryFileLocation: $(Build.SourcesDirectory)/TestResults/*/*.cobertura.xml
-        reportDirectory: $(Build.SourcesDirectory)/TestResults/*
-        codecoverageTool: cobertura    
+        summaryFileLocation: $(Build.SourcesDirectory)/coverage/Cobertura/Cobertura.xml
+        reportDirectory: $(Build.SourcesDirectory)/coverage/Cobertura
+        codecoverageTool: cobertura
 
     - task: DotNetCoreCLI@2
       displayName: dotnet test

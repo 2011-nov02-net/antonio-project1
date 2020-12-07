@@ -34,7 +34,8 @@ namespace BookStore.WebApp.Controllers
                 {
                     Quantity = ci.Quantity,
                     ISBN = ci.Book.ISBN
-                })
+                }),
+                CartTotal = shoppingCart.CartTotal
             };
             return View(cart);
         }

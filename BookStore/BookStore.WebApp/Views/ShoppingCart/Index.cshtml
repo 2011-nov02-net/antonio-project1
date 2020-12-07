@@ -38,6 +38,9 @@ else {
     </tbody>
 </table>
 <div>
-    @Html.ActionLink("Place Order", "PlaceOrder")
+    <p>Order Total: @Html.DisplayFor(model=> model.CartTotal)</p>
+</div>
+<div>
+    <button class="btn-primary" type="submit" asp-action="PlaceOrder">Place Order</button>
 </div>
 }

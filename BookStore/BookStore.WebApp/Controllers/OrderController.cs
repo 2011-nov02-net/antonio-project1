@@ -9,11 +9,9 @@ namespace BookStore.WebApp.Controllers
     public class OrderController : Controller
     {
         private readonly IStoreRepository _repository;
-        private readonly ILogger _logger;
-        public OrderController(ILogger<OrderController> logger, IStoreRepository repository)
+        public OrderController(IStoreRepository repository)
         {
             _repository = repository;
-            _logger = logger;
         }
 
         // GET: OrderController

@@ -12,13 +12,11 @@ namespace BookStore.WebApp.Controllers
     {
         private readonly ICartRepository _cartrepository;
         private readonly IStoreRepository _repository;
-        private readonly ILogger _logger;
 
-        public ShoppingCartController(ILogger<ShoppingCartController> logger, IStoreRepository storerepo, ICartRepository repository)
+        public ShoppingCartController( IStoreRepository storerepo, ICartRepository repository)
         {
             _cartrepository = repository;
             _repository = storerepo;
-            _logger = logger;
         }
         // GET: ShoppingCart
         public ActionResult Index()

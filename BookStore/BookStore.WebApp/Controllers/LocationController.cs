@@ -9,12 +9,10 @@ namespace BookStore.WebApp.Controllers
     public class LocationController : Controller
     {
         private readonly IStoreRepository _repository;
-        private readonly ILogger _logger;
 
-        public LocationController(ILogger<LocationController> logger, IStoreRepository repository)
+        public LocationController(IStoreRepository repository)
         {
             _repository = repository;
-            _logger = logger;
         }
 
         // GET: LocationController

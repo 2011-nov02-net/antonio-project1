@@ -35,7 +35,7 @@ namespace BookStore.Tests
                     }
             });
 
-            var controller = new CustomerController(new NullLogger<CustomerController>(), mockRepository.Object);
+            var controller = new CustomerController(mockRepository.Object);
 
             // act
             IActionResult actionResult = controller.Index();

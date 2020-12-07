@@ -15,7 +15,7 @@ namespace BookStore.Domain.Models
         public string AuthorFullName { get => $"{AuthorFirstName} {AuthorLastName}"; }
         public decimal Price { get; set; }
 
-        public readonly static List<Book> Library = new List<Book>();
+        public static IEnumerable<Book> Library;
 
         /// <summary>
         /// If it werent for this function then this class could almost be a struct.
@@ -30,7 +30,16 @@ namespace BookStore.Domain.Models
 
         public static Book GetBookFromLibrary(string isbn)
         {
-            return Library.Find(b => b.ISBN == isbn);
+            if (Library.First(b => b.ISBN == isbn) != null) {
+                return new Book {
+                ISBN = Library.First(b => b.ISBN == isbn).ISBN,
+                AuthorFirstName = Library.First(b => b.ISBN == isbn).AuthorFirstName,
+                AuthorLastName = Library.First(b => b.ISBN == isbn).AuthorLastName,
+                Price = Library.First(b => b.ISBN == isbn).Price,
+                Title = Library.First(b => b.ISBN == isbn).Title
+                };
+            }
+            return null;
         }
 
         public override string ToString()

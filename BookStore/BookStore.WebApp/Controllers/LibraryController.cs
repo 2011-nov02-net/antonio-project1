@@ -57,6 +57,7 @@ namespace BookStore.WebApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    _repository.FillBookLibrary();
                     var customer = _repository.GetCustomers().Where(c => c.ID == Int32.Parse(TempData.Peek("CustomerID").ToString())).First();
                     var book = Domain.Models.Book.GetBookFromLibrary(collection["isbn"]);
                     int quantity = Int32.Parse(collection["qty"]);

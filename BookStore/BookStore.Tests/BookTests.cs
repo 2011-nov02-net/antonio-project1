@@ -1,6 +1,7 @@
 
 using BookStore.Domain.Models;
 using Xunit;
+using System.Linq;
 
 namespace StoreApplication.Tests
 {
@@ -11,7 +12,7 @@ namespace StoreApplication.Tests
         {
             var newBook = new Book();
             newBook.ISBN = "111";
-            Book.Library.Add(newBook);
+            Book.Library.ToList().Add(newBook);
 
             Assert.True(Book.CheckIfIsValidIsbn("111"), "The book should exist!");
         }

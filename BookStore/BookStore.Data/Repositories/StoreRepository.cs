@@ -296,12 +296,8 @@ namespace BookStore.Data.Repositories
         /// </summary>
         public IEnumerable<Domain.Models.Book> FillBookLibrary()
         {
-            IEnumerable<Entities.BookEntity> dbBooks = _context.Books.ToList();
-            foreach (Entities.BookEntity b in dbBooks)
-            {
-                Domain.Models.Book.Library.Add(MapperBook.Map(b));
-            }
-            return dbBooks.Select(MapperBook.Map);
+            Domain.Models.Book.Library = _context.Books.Select(MapperBook.Map);
+            return Domain.Models.Book.Library;
         }
         public Domain.Models.Book GetBook(string isbn)
         {

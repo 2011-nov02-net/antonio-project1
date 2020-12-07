@@ -12,7 +12,7 @@ namespace BookStore.Domain.Models
         private int _itemCount;
         public int NumberOfItemsInCart { get => _itemCount; set => _itemCount = CartItems.ToList().Count; }
         private decimal _cartTotal;
-        public decimal CartTotal { get { return _cartTotal; } set { _cartTotal = CartItems.Sum(b => b.Book.Price); } }
+        public decimal CartTotal { get { return _cartTotal; } set { _cartTotal = CartItems.Sum(b => b.Book.Price*b.Quantity); } }
 
         public bool AddToCartAttempt(Book book, int quantity, Location location)
         {

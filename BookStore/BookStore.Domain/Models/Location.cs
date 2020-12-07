@@ -26,7 +26,7 @@ namespace BookStore.Domain.Models
             foreach (OrderLine ol in newOrder.Purchase)
             {
                 // Check each one if the book is even in the library and if there is enough
-                if (CheckStockForOrderAttempt(Book.Library.Find(b => b.ISBN.Contains(ol.BookISBN)), ol.Quantity))
+                if (CheckStockForOrderAttempt(Book.Library.First(b => b.ISBN.Contains(ol.BookISBN)), ol.Quantity))
                 {
                     attempted++;
                 }

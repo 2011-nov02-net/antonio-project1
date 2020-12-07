@@ -38,7 +38,9 @@ stages:
         organization: '2011-nov02-net'
         scannerMode: 'MSBuild'
         projectKey: '2011-nov02-net_antonio-project1'
-        extraProperties: 'sonar.exclusions=**/lib/**'
+        extraProperties: |
+         'sonar.exclusions=**/lib/**'
+         'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/coverage/coverage.opencover.xml'
 
     - task: UseDotNet@2
       displayName: dotnet sdk $(sdkVersion)

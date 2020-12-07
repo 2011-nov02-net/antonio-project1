@@ -41,6 +41,6 @@ else {
     <p>Order Total: @Html.DisplayFor(model=> model.CartTotal)</p>
 </div>
 <div>
-    <button class="btn-primary" type="submit" asp-action="PlaceOrder">Place Order</button>
+    <input class="btn-primary" type="button" value="Place Order" onclick="location.href='@Url.Action("PlaceOrder")'" />
 </div>
 }

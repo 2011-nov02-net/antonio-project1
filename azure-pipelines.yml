@@ -59,9 +59,7 @@ stages:
       displayName: dotnet test
       inputs:
         command: 'test'
-        arguments: |
-          '--configuration $(buildConfiguration)'
-          '--collect "Code Coverage"'
+        arguments: '--collect "Code Coverage"'
         publishTestResults: true
         workingDirectory: 'BookStore'
 

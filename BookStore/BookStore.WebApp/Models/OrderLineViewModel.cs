@@ -11,6 +11,7 @@ namespace BookStore.WebApp.Models
         public int Quantity { get; set; }
 
         [Display(Name = "Line Cost")]
+        [DataType(DataType.Currency)]
         public decimal LineCost { get; set; }
     }
 }

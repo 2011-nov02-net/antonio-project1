@@ -29,6 +29,7 @@ namespace BookStore.WebApp.Models
         [Display(Name = "Price")]
         [Required]
         [RegularExpression(@"[0-9]*\.?[0-9]+", ErrorMessage = "{0} must be a Number.")]
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
         public Dictionary<string, int> LocationsWithStock { get; set; }

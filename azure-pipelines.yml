@@ -38,7 +38,14 @@ stages:
         organization: '2011-nov02-net'
         scannerMode: 'MSBuild'
         projectKey: '2011-nov02-net_antonio-project1'
-        extraProperties: 'sonar.exclusions=**/lib/**'
+        extraProperties: |
+         'sonar.exclusions=**/lib/**'
+          sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)\**\*.trx
+          sonar.cs.vscoveragexml.reportsPaths=$(Agent.TempDirectory)\**\*.coveragexml
+    - task: NuGetToolInstaller@1
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)'
     - task: UseDotNet@2
       displayName: dotnet sdk $(sdkVersion)
       inputs:
@@ -48,6 +55,14 @@ stages:
       displayName: dotnet build
       workingDirectory: BookStore
 
+    - task: DotNetCoreCLI@2
+      displayName: dotnet test
+      inputs:
+        command: 'test'
+        arguments: '--collect "Code Coverage"'
+        publishTestResults: true
+        workingDirectory: 'BookStore'
+
     - task: SonarCloudAnalyze@1
       displayName: sonar analysis
 
@@ -56,13 +71,12 @@ stages:
       inputs:
         pollingTimeoutSec: '300'
 
-    - task: DotNetCoreCLI@2
-      displayName: dotnet test
+    - task: PublishCodeCoverageResults@1
       inputs:
-        command: 'test'
-        arguments: '--configuration $(buildConfiguration)'
-        publishTestResults: true
-        workingDirectory: 'BookStore'
+        summaryFileLocation: $(Build.SourcesDirectory)/coverage/Cobertura/Cobertura.xml
+        reportDirectory: $(Build.SourcesDirectory)/coverage/Cobertura
+        codecoverageTool: cobertura
+
 
     - script: dotnet publish --configuration $(buildConfiguration) --output publish
       displayName: dotnet publish

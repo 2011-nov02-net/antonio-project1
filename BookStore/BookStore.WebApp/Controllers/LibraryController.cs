@@ -48,7 +48,7 @@ namespace BookStore.WebApp.Controllers
                 Title = b.Title,
                 LocationsWithStock = _repository.GetLocationsIfStocksExistForISBN(Int32.Parse(TempData.Peek("MyStoreID").ToString()), isbn)
             };
-            
+
             return View(book);
         }
 
@@ -58,7 +58,7 @@ namespace BookStore.WebApp.Controllers
         {
             try
             {
-                if (ModelState.IsValid) 
+                if (ModelState.IsValid)
                 {
                     var customer = _repository.GetCustomers().Where(c => c.ID == Int32.Parse(TempData.Peek("CustomerID").ToString())).First();
                     var book = Domain.Models.Book.GetBookFromLibrary(collection["isbn"]);
@@ -71,8 +71,9 @@ namespace BookStore.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception) { 
-            return RedirectToAction(nameof(Index));
+            catch (Exception)
+            {
+                return RedirectToAction(nameof(Index));
             }
         }
     }

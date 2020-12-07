@@ -3,10 +3,7 @@ using BookStore.Domain.Interfaces;
 using BookStore.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookStore.Data.Repositories
 {
@@ -45,7 +42,7 @@ namespace BookStore.Data.Repositories
         public ShoppingCart GetShoppingCartByCustomerID(int customerID)
         {
             var db_cart = _context.Shoppingcarts.Include(i => i.Cartitems).FirstOrDefault(sc => sc.CustomerId == customerID);
-            
+
             return new ShoppingCart
             {
                 ID = db_cart.CartId,
@@ -64,7 +61,7 @@ namespace BookStore.Data.Repositories
         {
             var db_cartItem_rm = new CartitemEntity
             {
-                ItemId = customer.MyCart.CartItems.First(b=>b.Book.ISBN == book.ISBN).ID
+                ItemId = customer.MyCart.CartItems.First(b => b.Book.ISBN == book.ISBN).ID
             };
 
             var db_location = _context.Inventories.First(i => i.LocationId == customer.MyStoreLocation.ID);

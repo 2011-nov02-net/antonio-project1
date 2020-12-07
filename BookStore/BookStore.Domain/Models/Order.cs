@@ -10,7 +10,7 @@ namespace BookStore.Domain.Models
         public Location LocationPlaced { get; set; }
         public Customer CustomerPlaced { get; set; }
         public List<OrderLine> Purchase { get; set; } = new List<OrderLine>();
-        public decimal TotalCost { get => GetOrderTotal(); set=> TotalCost = value; }
+        public decimal TotalCost { get => GetOrderTotal(); set => TotalCost = value; }
         public DateTime TimeStamp { get; set; }
         public static IEnumerable<Order> OrderHistory { get; set; }
         public int OrderNumber { get; set; }

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookStore.WebApp.Models
 {
     public class CartItemViewModel
-    { 
+    {
         [Display(Name = "ISBN")]
         [Required(ErrorMessage = "ISBN is Required")]
         [MaxLength(15)]

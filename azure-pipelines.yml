@@ -42,7 +42,10 @@ stages:
          'sonar.exclusions=**/lib/**'
           sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)\**\*.trx
           sonar.cs.vscoveragexml.reportsPaths=$(Agent.TempDirectory)\**\*.coveragexml
-
+    - task: NuGetToolInstaller@1
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)'
     - task: UseDotNet@2
       displayName: dotnet sdk $(sdkVersion)
       inputs:
@@ -51,6 +54,16 @@ stages:
     - script: dotnet build --configuration $(buildConfiguration)
       displayName: dotnet build
       workingDirectory: BookStore
+
+    - task: DotNetCoreCLI@2
+      displayName: dotnet test
+      inputs:
+        command: 'test'
+        arguments: |
+          '--configuration $(buildConfiguration)'
+          '--collect "Code Coverage"'
+        publishTestResults: true
+        workingDirectory: 'BookStore'
 
     - task: SonarCloudAnalyze@1
       displayName: sonar analysis
@@ -66,15 +79,6 @@ stages:
         reportDirectory: $(Build.SourcesDirectory)/coverage/Cobertura
         codecoverageTool: cobertura
 
-    - task: DotNetCoreCLI@2
-      displayName: dotnet test
-      inputs:
-        command: 'test'
-        arguments: |
-          '--configuration $(buildConfiguration)'
-          '--collect "Code Coverage"'
-        publishTestResults: true
-        workingDirectory: 'BookStore'
 
     - script: dotnet publish --configuration $(buildConfiguration) --output publish
       displayName: dotnet publish

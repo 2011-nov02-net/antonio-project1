@@ -53,7 +53,8 @@ namespace BookStore.Data.Repositories
                     Book = Book.GetBookFromLibrary(ci.BookIsbn),
                     Quantity = ci.Quantity,
                 }),
-                CartTotal = 0
+                CartTotal = 0,
+                NumberOfItemsInCart = 0
             };
         }
 

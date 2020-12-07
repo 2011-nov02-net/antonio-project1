@@ -9,7 +9,8 @@ namespace BookStore.Domain.Models
         public int ID { get; set; }
         public IEnumerable<CartItem> CartItems { get; set; }
         public DateTime DateCreated { get; set; }
-        public int NumberOfItemsInCart { get => CartItems.ToList().Count; }
+        private int _itemCount;
+        public int NumberOfItemsInCart { get => _itemCount; set => _itemCount = CartItems.ToList().Count; }
         private decimal _cartTotal;
         public decimal CartTotal { get { return _cartTotal; } set { _cartTotal = CartItems.Sum(b => b.Book.Price); } }
 

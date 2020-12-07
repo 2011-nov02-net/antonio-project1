@@ -10,12 +10,10 @@ namespace BookStore.WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IStoreRepository _repository;
 
-        public HomeController(ILogger<HomeController> logger, IStoreRepository storeRepository)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _repository = storeRepository;
         }
 
         public IActionResult Index()

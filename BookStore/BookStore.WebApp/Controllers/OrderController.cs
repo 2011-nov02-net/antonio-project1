@@ -1,7 +1,6 @@
 ﻿using BookStore.Domain.Interfaces;
 using BookStore.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Linq;
 
 namespace BookStore.WebApp.Controllers

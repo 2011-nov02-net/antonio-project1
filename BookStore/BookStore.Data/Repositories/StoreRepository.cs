@@ -38,7 +38,7 @@ namespace BookStore.Data.Repositories
                 dbLocations = dbLocations.Where(i => i.Name.Contains(search));
             }
 
-            return dbLocations.Select(Mapper_Location.Map);
+            return dbLocations.Select(MapperLocation.Map);
         }
 
         public Dictionary<string, int> GetLocationsIfStocksExistForISBN(int locationID, string search)
@@ -73,7 +73,7 @@ namespace BookStore.Data.Repositories
         {
             // Create the Entity item to be put into the database
             Entities.OrderEntity order;
-            order = Mapper_Order.MapOrderWithOrderLines(m_order);
+            order = MapperOrder.MapOrderWithOrderLines(m_order);
 
             // We need to grab the entity objects from the database for the inventory rows for the given location.
             // This is so we can update them accordingly.
@@ -113,22 +113,16 @@ namespace BookStore.Data.Repositories
         public Domain.Models.Customer GetCustomerWithLocationAndInventory(int id)
         {
             // first we create our db customer to check if we find it
-            Entities.CustomerEntity dbCustomer = new Entities.CustomerEntity();
-            try
-            {
-                // if we do then we assign it to the customer
-                dbCustomer = _context.Customers
-                    .Include(l => l.Location)
-                    .Include(sc => sc.Shoppingcarts)
-                    .ThenInclude(ci => ci.Cartitems).First(c => c.Id == id);
-            }
-            catch (InvalidOperationException ex)
-            {
-                // if we don't then we return null 
-                return null;
-            }
+            CustomerEntity dbCustomer;
+
+            // if we do then we assign it to the customer
+            dbCustomer = _context.Customers
+                .Include(l => l.Location)
+                .Include(sc => sc.Shoppingcarts)
+                .ThenInclude(ci => ci.Cartitems).First(c => c.Id == id);
+
             // since we found it we map the new customer with the location
-            Domain.Models.Customer m_customer = Mapper_Customer.MapCustomerWithLocation(dbCustomer);
+            Domain.Models.Customer m_customer = MapperCustomer.MapCustomerWithLocation(dbCustomer);
 
             // then we get the stocks for the location
             m_customer.MyStoreLocation.Inventory = GetStocksForLocation(m_customer.MyStoreLocation.ID).ToList();
@@ -150,10 +144,10 @@ namespace BookStore.Data.Repositories
             // assign each stock from the list of stocks to a model
             foreach (Entities.InventoryEntity s in stocks)
             {
-                m_stocks.Add(Mapper_Inventory.Map(s));
+                m_stocks.Add(MapperInventory.Map(s));
             }
 
-            return stocks.Select(Mapper_Inventory.Map);
+            return stocks.Select(MapperInventory.Map);
         }
 
         /// <summary>
@@ -167,7 +161,7 @@ namespace BookStore.Data.Repositories
 
             // Since the database handles the ID setting with identity, we only need to assign the new entity the firstname and the lastname
             // Maybe in the future we could add a way to change the location, but for now the database sets the location to the default 1.
-            entity = Mapper_Customer.Map(customer);
+            entity = MapperCustomer.Map(customer);
 
             // Add the new entity to the context to send over to the database
             _context.Add(entity);
@@ -196,13 +190,13 @@ namespace BookStore.Data.Repositories
             // if it is null exit the method and return null
             if (dbCustomer == null)
             {
-                return null;
+                return new List<Domain.Models.Customer>();
             }
 
             List<Domain.Models.Customer> m_customers = new List<Domain.Models.Customer>();
             foreach (Entities.CustomerEntity customer in dbCustomer)
             {
-                m_customers.Add(Mapper_Customer.Map(customer));
+                m_customers.Add(MapperCustomer.Map(customer));
             }
 
             return m_customers;
@@ -212,7 +206,7 @@ namespace BookStore.Data.Repositories
         {
             return _context.Customers.Include(l => l.Location)
                     .Include(sc => sc.Shoppingcarts)
-                    .ThenInclude(ci => ci.Cartitems).Select(Mapper_Customer.MapCustomerWithLocation);
+                    .ThenInclude(ci => ci.Cartitems).Select(MapperCustomer.MapCustomerWithLocation);
         }
         /// <summary>
         /// The purpose of this method is to return the string version of an order, given an order number.
@@ -232,23 +226,17 @@ namespace BookStore.Data.Repositories
             Domain.Models.Order m_order;
 
             // Try to see if the order even exists if it does then assign it
-            try
-            {
-                dbOrder = _context.Orders
-                    .Include(ol => ol.Orderlines)
-                    .Include(c => c.Customer)
-                    .Include(l => l.Location)
-                    .First(o => o.Id == ordernumber);
 
-                m_order = Mapper_Order.MapOrderWithLocationCustomerAndOrderLines(dbOrder);
-            }
-            catch (InvalidOperationException ex)
-            {
-                // if it doesn't then return the error along with a descriptive text
-                return null;
-            }
+            dbOrder = _context.Orders
+                .Include(ol => ol.Orderlines)
+                .Include(c => c.Customer)
+                .Include(l => l.Location)
+                .First(o => o.Id == ordernumber);
 
-            return Mapper_Order.MapOrderWithLocationCustomerAndOrderLines(dbOrder);
+            m_order = MapperOrder.MapOrderWithLocationCustomerAndOrderLines(dbOrder);
+
+
+            return m_order;
         }
 
         /// <summary>
@@ -272,9 +260,9 @@ namespace BookStore.Data.Repositories
             // If it doesn't exist then return that the location does not exist.
             if (dbLocation == null)
             {
-                return null;
+                return new List<Domain.Models.Order>();
             }
-            return dbLocation.Orders.Select(Mapper_Order.MapOrderWithOrderLines);
+            return dbLocation.Orders.Select(MapperOrder.MapOrderWithOrderLines);
         }
 
         public Domain.Models.Customer GetOrderHistoryByCustomer(int id)
@@ -296,9 +284,9 @@ namespace BookStore.Data.Repositories
             {
                 return null;
             }
-            string result = "";
+
             // if one was found then map it to a usable object
-            Domain.Models.Customer m_customer = Mapper_Customer.MapCustomerWithOrders(dbCustomer);
+            Domain.Models.Customer m_customer = MapperCustomer.MapCustomerWithOrders(dbCustomer);
 
             return m_customer;
         }
@@ -311,13 +299,13 @@ namespace BookStore.Data.Repositories
             IEnumerable<Entities.BookEntity> dbBooks = _context.Books.ToList();
             foreach (Entities.BookEntity b in dbBooks)
             {
-                Domain.Models.Book.Library.Add(Mapper_Book.Map(b));
+                Domain.Models.Book.Library.Add(MapperBook.Map(b));
             }
-            return dbBooks.Select(Mapper_Book.Map);
+            return dbBooks.Select(MapperBook.Map);
         }
         public Domain.Models.Book GetBook(string isbn)
         {
-            return Mapper_Book.Map(_context.Books.Where(b => b.Isbn.Equals(isbn)).FirstOrDefault());
+            return MapperBook.Map(_context.Books.Where(b => b.Isbn.Equals(isbn)).FirstOrDefault());
         }
 
         /// <summary>

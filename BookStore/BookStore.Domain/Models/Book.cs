@@ -15,7 +15,7 @@ namespace BookStore.Domain.Models
         public string AuthorFullName { get => $"{AuthorFirstName} {AuthorLastName}"; }
         public decimal Price { get; set; }
 
-        public static List<Book> Library = new List<Book>();
+        public readonly static List<Book> Library = new List<Book>();
 
         /// <summary>
         /// If it werent for this function then this class could almost be a struct.

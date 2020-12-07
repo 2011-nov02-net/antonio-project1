@@ -1,6 +1,6 @@
 ﻿namespace BookStore.Data.Mappers
 {
-    public static class Mapper_Book
+    public static class MapperBook
     {
         /// <summary>
         /// The purpose of this method is to take a db object and turn it into a model object

@@ -10,7 +10,7 @@ namespace BookStore.Domain.Models
         public Location LocationPlaced { get; set; }
         public Customer CustomerPlaced { get; set; }
         public List<OrderLine> Purchase { get; set; } = new List<OrderLine>();
-        public decimal TotalCost { get => GetOrderTotal(); set => TotalCost = value; }
+        public decimal TotalCost { get => GetOrderTotal(); }
         public DateTime TimeStamp { get; set; }
         public static IEnumerable<Order> OrderHistory { get; set; }
         public int OrderNumber { get; set; }
@@ -50,7 +50,7 @@ namespace BookStore.Domain.Models
         /// </summary>
         /// <param name="items"></param>
         /// <returns></returns>
-        public string[] SplitString(string items)
+        public static string[] SplitString(string items)
         {
             items = String.Concat(items.Where(c => !Char.IsWhiteSpace(c)));
             return items.Split(',');
@@ -75,7 +75,7 @@ namespace BookStore.Domain.Models
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>
-        public List<Order> GetOrderHistoryByLocation(Location location)
+        public static List<Order> GetOrderHistoryByLocation(Location location)
         {
             List<Order> orderHistoryForGivenLocation = new List<Order>();
             foreach (Order o in OrderHistory)
@@ -93,7 +93,7 @@ namespace BookStore.Domain.Models
         /// </summary>
         /// <param name="customer"></param>
         /// <returns></returns>
-        public List<Order> GetOrderHistoryByCustomer(Customer customer)
+        public static List<Order> GetOrderHistoryByCustomer(Customer customer)
         {
             List<Order> orderHistoryForGivenCustomer = new List<Order>();
             foreach (Order o in OrderHistory)
@@ -105,17 +105,5 @@ namespace BookStore.Domain.Models
             }
             return orderHistoryForGivenCustomer;
         }
-
-        public override string ToString()
-        {
-            string result = $"Order Number: {OrderNumber}\tTotal: {GetOrderTotal()}\tOrder Date: {TimeStamp}\nItems:";
-            foreach (OrderLine ol in Purchase)
-            {
-                result += $"\n\t{ol}";
-            }
-
-            return result;
-        }
-
     }
 }

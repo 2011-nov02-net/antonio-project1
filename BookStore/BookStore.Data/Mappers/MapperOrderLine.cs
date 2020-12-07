@@ -1,6 +1,6 @@
 ﻿namespace BookStore.Data.Mappers
 {
-    public static class Mapper_OrderLine
+    public static class MapperOrderLine
     {
         /// <summary>
         /// Turn an entity orderline into a model orderline

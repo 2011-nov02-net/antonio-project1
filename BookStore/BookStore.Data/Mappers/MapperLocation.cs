@@ -2,7 +2,7 @@
 
 namespace BookStore.Data.Mappers
 {
-    public static class Mapper_Location
+    public static class MapperLocation
     {
         /// <summary>
         /// This turns a Location Model into a Location entity, by assigning each relavent property
@@ -16,7 +16,7 @@ namespace BookStore.Data.Mappers
             {
                 Id = location.ID,
                 Name = location.LocationName,
-                Orders = location.OrderHistory.Select(Mapper_Order.Map).ToList()
+                Orders = location.OrderHistory.Select(MapperOrder.Map).ToList()
             };
         }
 
@@ -31,7 +31,7 @@ namespace BookStore.Data.Mappers
             {
                 ID = location.Id,
                 LocationName = location.Name,
-                OrderHistory = location.Orders.Select(Mapper_Order.MapOrderWithOrderLines).ToList()
+                OrderHistory = location.Orders.Select(MapperOrder.MapOrderWithOrderLines).ToList()
             };
         }
 
@@ -46,7 +46,7 @@ namespace BookStore.Data.Mappers
             {
                 ID = location.Id,
                 LocationName = location.Name,
-                Inventory = location.Inventories.Select(Mapper_Inventory.Map).ToList()
+                Inventory = location.Inventories.Select(MapperInventory.Map).ToList()
             };
         }
 

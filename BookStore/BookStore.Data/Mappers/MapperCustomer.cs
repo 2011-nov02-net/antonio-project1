@@ -2,7 +2,7 @@
 
 namespace BookStore.Data.Mappers
 {
-    public static class Mapper_Customer
+    public static class MapperCustomer
     {
         /// <summary>
         /// Turn a model customer with their location into a entity customer
@@ -16,7 +16,7 @@ namespace BookStore.Data.Mappers
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 Id = customer.ID,
-                Location = Mapper_Location.Map(customer.MyStoreLocation)
+                Location = MapperLocation.Map(customer.MyStoreLocation)
             };
         }
         /// <summary>
@@ -31,7 +31,7 @@ namespace BookStore.Data.Mappers
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 ID = customer.Id,
-                MyStoreLocation = Mapper_Location.MapLocationsWithInventory(customer.Location),
+                MyStoreLocation = MapperLocation.MapLocationsWithInventory(customer.Location),
                 MyCart = customer.Shoppingcarts.Select(sc => new Domain.Models.ShoppingCart
                 {
                     DateCreated = (System.DateTime)sc.CreateData,
@@ -58,8 +58,8 @@ namespace BookStore.Data.Mappers
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 ID = customer.Id,
-                MyStoreLocation = Mapper_Location.Map(customer.Location),
-                Orders = customer.Orders.Select(Mapper_Order.MapOrderWithOrderLines)
+                MyStoreLocation = MapperLocation.Map(customer.Location),
+                Orders = customer.Orders.Select(MapperOrder.MapOrderWithOrderLines)
             };
         }
 
@@ -92,7 +92,7 @@ namespace BookStore.Data.Mappers
                 ID = customer.Id,
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
-                MyStoreLocation = Mapper_Location.Map(customer.Location)
+                MyStoreLocation = MapperLocation.Map(customer.Location)
             };
         }
 

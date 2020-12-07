@@ -2,7 +2,6 @@
 using BookStore.WebApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 
@@ -95,7 +94,7 @@ namespace BookStore.WebApp.Controllers
 
         public ActionResult AssignCurrentCustomer(int id)
         {
-            var customer = _repository.GetCustomers().Where(c => c.ID == id).First();
+            var customer = _repository.GetCustomers().First(c => c.ID == id);
             TempData["CustomerID"] = id;
             TempData["CustomerName"] = customer.Name;
             TempData["MyStoreID"] = customer.MyStoreLocation.ID;

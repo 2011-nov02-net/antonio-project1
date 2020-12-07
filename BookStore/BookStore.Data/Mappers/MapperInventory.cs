@@ -1,6 +1,6 @@
 ﻿namespace BookStore.Data.Mappers
 {
-    public static class Mapper_Inventory
+    public static class MapperInventory
     {
         /// <summary>
         /// Turn a entity inventory into a model stock
@@ -11,7 +11,7 @@
         {
             return new Domain.Models.Stock
             {
-                Book = Mapper_Book.Map(inventory.BookIsbnNavigation),
+                Book = MapperBook.Map(inventory.BookIsbnNavigation),
                 Quantity = (int)inventory.Quantity
             };
         }
@@ -25,9 +25,9 @@
         {
             return new Entities.InventoryEntity
             {
-                BookIsbnNavigation = Mapper_Book.Map(stock.Book),
+                BookIsbnNavigation = MapperBook.Map(stock.Book),
                 Quantity = stock.Quantity,
-                BookIsbn = Mapper_Book.Map(stock.Book).Isbn
+                BookIsbn = MapperBook.Map(stock.Book).Isbn
             };
         }
     }

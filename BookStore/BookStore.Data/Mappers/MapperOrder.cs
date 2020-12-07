@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace BookStore.Data.Mappers
 {
-    public static class Mapper_Order
+    public static class MapperOrder
     {
         /// <summary>
         /// Turn an entity order with the location and customer and it's orderlines into objects
@@ -15,10 +15,10 @@ namespace BookStore.Data.Mappers
             return new Domain.Models.Order
             {
                 OrderNumber = order.Id,
-                Purchase = order.Orderlines.Select(Mapper_OrderLine.Map).ToList(),
+                Purchase = order.Orderlines.Select(MapperOrderLine.Map).ToList(),
                 TimeStamp = (DateTime)order.OrderDate,
-                CustomerPlaced = Mapper_Customer.Map(order.Customer),
-                LocationPlaced = Mapper_Location.Map(order.Location)
+                CustomerPlaced = MapperCustomer.Map(order.Customer),
+                LocationPlaced = MapperLocation.Map(order.Location)
             };
         }
 
@@ -34,7 +34,7 @@ namespace BookStore.Data.Mappers
                 Id = order.OrderNumber,
                 CustomerId = order.CustomerPlaced.ID,
                 LocationId = order.LocationPlaced.ID,
-                Orderlines = order.Purchase.Select(Mapper_OrderLine.Map).ToList()
+                Orderlines = order.Purchase.Select(MapperOrderLine.Map).ToList()
             };
         }
 
@@ -48,7 +48,7 @@ namespace BookStore.Data.Mappers
             return new Domain.Models.Order
             {
                 OrderNumber = order.Id,
-                Purchase = order.Orderlines.Select(Mapper_OrderLine.Map).ToList(),
+                Purchase = order.Orderlines.Select(MapperOrderLine.Map).ToList(),
                 TimeStamp = (DateTime)order.OrderDate
             };
         }
@@ -68,7 +68,7 @@ namespace BookStore.Data.Mappers
             {
                 OrderNumber = order.Id,
                 TimeStamp = (DateTime)order.OrderDate,
-                CustomerPlaced = Mapper_Customer.Map(order.Customer)
+                CustomerPlaced = MapperCustomer.Map(order.Customer)
             };
         }
     }

@@ -85,13 +85,12 @@ namespace BookStore.Data.Repositories
             foreach (Entities.InventoryEntity i in dbStocks)
             {
                 // We also need to iterate through all the Domain.Models.Stock list for the location
-                foreach (Domain.Models.Stock stock in m_order.LocationPlaced.Inventory)
+                foreach (var orderLine in m_order.Purchase)
                 {
                     // An extra measure is taken here just to be sure that only books that exists in the database are being changed.
-                    if (stock.Book.ISBN == i.BookIsbn)
+                    if (orderLine.BookISBN == i.BookIsbn)
                     {
-                        // Set the new quantity
-                        i.Quantity = stock.Quantity;
+                        i.Quantity -= orderLine.Quantity;
                     }
                 }
             }

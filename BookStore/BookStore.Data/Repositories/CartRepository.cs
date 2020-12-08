@@ -28,9 +28,6 @@ namespace BookStore.Data.Repositories
                 Quantity = quantity,
                 ShoppingcartId = customer.MyCart.ID
             };
-            var locationInventory = _context.Inventories.First(l => l.LocationId == customer.MyStoreLocation.ID && l.BookIsbn == book.ISBN);
-
-            locationInventory.Quantity -= quantity;
             // Add the new entity to the context to send over to the database
 
             _context.Add(db_cartItem);

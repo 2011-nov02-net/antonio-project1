@@ -27,22 +27,6 @@ stages:
 
     steps:
     - task: UseDotNet@2
-      displayName: dotnet sdk 2.x
-      inputs:
-        packageType: 'sdk'
-        version: '2.x'
-    - task: SonarCloudPrepare@1
-      inputs:
-        SonarCloud: 'sonarcloud'
-        organization: '2011-nov02-net'
-        scannerMode: 'MSBuild'
-        projectKey: '2011-nov02-net_antonio-project1'
-        extraProperties: |
-         'sonar.exclusions=**/lib/**'
-          sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)\**\*.trx
-          sonar.cs.vscoveragexml.reportsPaths=$(Agent.TempDirectory)\**\*.coveragexml
-
-    - task: UseDotNet@2
       displayName: dotnet sdk $(sdkVersion)
       inputs:
         packageType: 'sdk'
@@ -60,6 +44,7 @@ stages:
       artifact: app
 
 - stage: SonarCloud
+  dependsOn: []
   jobs:
     - job: testing
       pool:
@@ -69,28 +54,55 @@ stages:
         sdkVersion: 5.0.x
         
       steps:
-        - task: UseDotNet@2
-          displayName: dotnet sdk $(sdkVersion)
-          inputs:
-            packageType: 'sdk'
-            version: '$(sdkVersion)'
+        
+      - task: UseDotNet@2
+        displayName: dotnet sdk 2.x
+        inputs:
+          packageType: 'sdk'
+          version: '2.x'
+      - task: SonarCloudPrepare@1
+        inputs:
+          SonarCloud: 'sonarcloud'
+          organization: '2011-nov02-net'
+          scannerMode: 'MSBuild'
+          projectKey: '2011-nov02-net_antonio-project1'
+          extraProperties: |
+            'sonar.exclusions=**/lib/**'
+            sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)\**\*.trx
+            sonar.cs.vscoveragexml.reportsPaths=$(Agent.TempDirectory)\**\*.coveragexml
 
-        - task: DotNetCoreCLI@2
-          displayName: dotnet test
-          inputs:
-            command: 'test'
-            arguments: '--configuration $(buildConfiguration) --collect "Code Coverage"'
-            publishTestResults: true
-            workingDirectory: 'BookStore'
-            
-        - task: SonarCloudAnalyze@1
-          displayName: sonar analysis
+      - task: UseDotNet@2
+        displayName: dotnet sdk $(sdkVersion)
+        inputs:
+          packageType: 'sdk'
+          version: '$(sdkVersion)'
 
-        - task: SonarCloudPublish@1
-          displayName: sonar analysis publish
-          inputs:
-            pollingTimeoutSec: '300'
-      
+      - script: dotnet build --configuration $(buildConfiguration)
+        displayName: dotnet build
+        workingDirectory: BookStore
+
+      - task: UseDotNet@2
+        displayName: dotnet sdk $(sdkVersion)
+        inputs:
+          packageType: 'sdk'
+          version: '$(sdkVersion)'
+
+      - task: DotNetCoreCLI@2
+        displayName: dotnet test
+        inputs:
+          command: 'test'
+          arguments: '--configuration $(buildConfiguration) --collect "Code Coverage"'
+          publishTestResults: true
+          workingDirectory: 'BookStore'
+          
+      - task: SonarCloudAnalyze@1
+        displayName: sonar analysis
+
+      - task: SonarCloudPublish@1
+        displayName: sonar analysis publish
+        inputs:
+          pollingTimeoutSec: '300'
+    
 - stage: release
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:

@@ -18,6 +18,7 @@ namespace BookStore.WebApp.Controllers
         {
             try
             {
+                _repository.FillBookLibrary();
                 var orderDetails = _repository.GetDetailsForOrder(id);
                 var vm_orderDetails = new OrderViewModel
                 {
@@ -31,7 +32,7 @@ namespace BookStore.WebApp.Controllers
                         BookISBN = ol.BookISBN,
                         LineCost = ol.LineCost,
                         Quantity = ol.Quantity
-                    }).ToList()
+                    }).ToList(),
                 };
                 if (justPlaced)
                 {

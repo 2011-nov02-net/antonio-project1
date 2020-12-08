@@ -10,11 +10,10 @@ namespace BookStore.Tests
         [Fact]
         public void CanFindABookThatExists()
         {
-            var newBook = new Book
+            Book.Library = new[] {new Book
             {
                 ISBN = "111"
-            };
-            Book.Library.ToList().Add(newBook);
+            } };
 
             Assert.True(Book.CheckIfIsValidIsbn("111"), "The book should exist!");
         }

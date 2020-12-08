@@ -6,7 +6,7 @@ insert into location (name) values ('Orlando, FL');
 insert into location (name) values ('Morgantown, WV');
 
 insert into customer (first_name, last_name) values ('Antonio','Mendez');
-insert into shoppingcart (customer_id) values (1);
+insert into shoppingcart (customer_id) values (10);
 insert into customer (first_name, last_name) values ('Darko','Mendez');
 insert into shoppingcart (customer_id) values (2);
 insert into customer (first_name, last_name) values ('Gavin','Mendez');

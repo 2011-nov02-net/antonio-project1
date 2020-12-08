@@ -52,11 +52,11 @@ namespace BookStore.WebApp.Controllers
                     TempData["TotalCartItems"] = customer.GetCartItemCount();
                     return RedirectToAction(nameof(Index));
                 }
-                return View();
+                return View(nameof(Index));
             }
             catch (Exception)
             {
-                return View();
+                return View(nameof(Index));
             }
         }
 
@@ -84,11 +84,11 @@ namespace BookStore.WebApp.Controllers
                     return RedirectToAction("Details", "Order", new { id = newOrderNumber, justPlaced = true });
                 }
 
-                return View();
+                return View(nameof(Index));
             }
             catch (Exception)
             {
-                return View();
+                return View(nameof(Index));
             }
         }
     }

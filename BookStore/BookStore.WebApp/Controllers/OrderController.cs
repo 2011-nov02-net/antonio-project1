@@ -13,12 +13,6 @@ namespace BookStore.WebApp.Controllers
             _repository = repository;
         }
 
-        // GET: OrderController
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         // GET: OrderController/Details/5
         public ActionResult Details(int id, bool justPlaced = false)
         {

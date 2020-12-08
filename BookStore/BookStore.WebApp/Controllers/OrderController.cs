@@ -38,6 +38,8 @@ namespace BookStore.WebApp.Controllers
                 {
                     TempData["NewOrder"] = "Order Confirmed!";
                 }
+
+                TempData["LocationID"] = orderDetails.LocationPlaced.ID;
                 return View(vm_orderDetails);
             }
             catch {

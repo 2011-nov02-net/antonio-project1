@@ -129,7 +129,7 @@ namespace BookStore.WebApp.Controllers
                 newBook.AuthorLastName = collection["AuthorLastName"];
                 newBook.Imagelink = collection["ImageLink"];
                 newBook.ISBN = collection["ISBN"];
-                newBook.Price = decimal.Parse(collection["Price"]);
+                newBook.Price = decimal.Parse(collection["Price"].ToString());
                 newBook.Genre = new Domain.Models.Genre { ID = Int32.Parse(collection["GenreList"]) };
             }
             try

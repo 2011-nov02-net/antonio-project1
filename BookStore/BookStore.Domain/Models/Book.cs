@@ -14,6 +14,8 @@ namespace BookStore.Domain.Models
         public string AuthorFirstName { get; set; }
         public string AuthorFullName { get => $"{AuthorFirstName} {AuthorLastName}"; }
         public decimal Price { get; set; }
+        public string Imagelink { get; set; }
+        public Genre Genre { get; set; }
 
         public static IEnumerable<Book> Library;
 
@@ -30,16 +32,7 @@ namespace BookStore.Domain.Models
 
         public static Book GetBookFromLibrary(string isbn)
         {
-            if (Library.First(b => b.ISBN == isbn) != null) {
-                return new Book {
-                ISBN = Library.First(b => b.ISBN == isbn).ISBN,
-                AuthorFirstName = Library.First(b => b.ISBN == isbn).AuthorFirstName,
-                AuthorLastName = Library.First(b => b.ISBN == isbn).AuthorLastName,
-                Price = Library.First(b => b.ISBN == isbn).Price,
-                Title = Library.First(b => b.ISBN == isbn).Title
-                };
-            }
-            return null;
+            return Library.First(b=>b.ISBN==isbn);
         }
 
         public override string ToString()

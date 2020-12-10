@@ -5,19 +5,18 @@ namespace BookStore.Domain.Interfaces
 {
     public interface IStoreRepository
     {
-        IEnumerable<Models.Location> GetAllLocations(string search = null);
-        int PlaceAnOrderForACustomer(Domain.Models.Order m_order);
-        public Models.Customer GetCustomerWithLocationAndInventory(int id);
+        IEnumerable<Location> GetAllLocations(string search = null);
+        int PlaceAnOrderForACustomer(Order m_order);
+        public Customer GetCustomerWithLocationAndInventory(int id);
         void AddACustomer(Customer customer);
-        public IEnumerable<Models.Customer> FindCustomerByName(string[] search);
-        Domain.Models.Order GetDetailsForOrder(int ordernumber);
+        public IEnumerable<Customer> FindCustomerByName(string[] search);
+        Order GetDetailsForOrder(int ordernumber);
         IEnumerable<Order> GetOrderHistoryByLocationID(int locationID);
-        Domain.Models.Customer GetOrderHistoryByCustomer(int id);
+        Customer GetOrderHistoryByCustomer(int id);
         void Save();
-        IEnumerable<Models.Stock> GetStocksForLocation(int locationID);
-        IEnumerable<Domain.Models.Book> FillBookLibrary();
-        IEnumerable<Domain.Models.Customer> GetCustomers();
-        Book GetBook(string isbn);
+        IEnumerable<Stock> GetStocksForLocation(int locationID);
+        IEnumerable<Book> FillBookLibrary(string isbn = null);
+        IEnumerable<Customer> GetCustomers();
         Dictionary<string, int> GetLocationsIfStocksExistForISBN(int locationID, string search);
 
     }

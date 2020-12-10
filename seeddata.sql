@@ -6,7 +6,7 @@ insert into location (name) values ('Orlando, FL');
 insert into location (name) values ('Morgantown, WV');
 
 insert into customer (first_name, last_name) values ('Antonio','Mendez');
-insert into shoppingcart (customer_id) values (10);
+insert into shoppingcart (customer_id) values (1);
 insert into customer (first_name, last_name) values ('Darko','Mendez');
 insert into shoppingcart (customer_id) values (2);
 insert into customer (first_name, last_name) values ('Gavin','Mendez');
@@ -14,12 +14,27 @@ insert into shoppingcart (customer_id) values (3);
 insert into customer (first_name, last_name) values ('Kayla','Mendez'); 
 insert into shoppingcart (customer_id) values (4);
 
+insert into genre(name) values ('Psychology')
+insert into genre(name) values ('Science Fiction')
+insert into genre(name) values ('Adult Fiction')
+insert into genre(name) values ('Fantasy')
+insert into genre(name) values ('Crime')
+insert into genre(name) values ('Mystery')
+insert into genre(name) values ('Horror')
+insert into genre(name) values ('Learning Resource')
+insert into genre(name) values ('Drama')
+insert into genre(name) values ('Ethics')
 
-insert into book (isbn, name, price, author_first_name, author_last_name) values ('978-0525948926', 'Atlas Shrugged', 29.99, 'Ayn', 'Rand');
-insert into book (isbn, name, price, author_first_name, author_last_name) values ('978-0452286757', 'The Fountainhead', 27.99, 'Ayn', 'Rand');
-insert into book (isbn, name, price, author_first_name, author_last_name) values ('978-1640320437', 'Anthem', 9.99, 'Ayn', 'Rand');
-insert into book (isbn, name, price, author_first_name, author_last_name) values ('978-0553103540', 'A Game of Thrones (Song of Ice and Fire)', 26.53, 'George R.R.', 'Martin');
-insert into book (isbn, name, price, author_first_name, author_last_name) values ('978-1617294563', 'Entity Framework Core in Action', 45.28, 'Jon P', 'Smith');
+insert into book (isbn, name, price, author_first_name, author_last_name, genre_id, image_link) values 
+('978-0525948926', 'Atlas Shrugged', 29.99, 'Ayn', 'Rand', 10, 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Atlas_Shrugged_%281957_1st_ed%29_-_Ayn_Rand.jpg');
+insert into book (isbn, name, price, author_first_name, author_last_name, genre_id, image_link) values 
+('978-0452286757', 'The Fountainhead', 27.99, 'Ayn', 'Rand', 10, 'https://images.penguinrandomhouse.com/cover/9780452286757');
+insert into book (isbn, name, price, author_first_name, author_last_name, genre_id, image_link) values 
+('978-1640320437', 'Anthem', 9.99, 'Ayn', 'Rand', 10, 'https://prodimage.images-bn.com/pimages/9780451191137_p0_v6_s1200x630.jpg');
+insert into book (isbn, name, price, author_first_name, author_last_name, genre_id, image_link) values 
+('978-0553103540', 'A Game of Thrones (Song of Ice and Fire)', 26.53, 'George R.R.', 'Martin', 4, 'https://images-na.ssl-images-amazon.com/images/I/91dSMhdIzTL.jpg');
+insert into book (isbn, name, price, author_first_name, author_last_name, genre_id, image_link) values 
+('978-1617294563', 'Entity Framework Core in Action', 45.28, 'Jon P', 'Smith', 8, 'https://images-na.ssl-images-amazon.com/images/I/71yu1E6ZLDL.jpg');
 
 -- Reston Initial Inventory
 insert into inventory (location_id, book_isbn, quantity) values (1, '978-0525948926',0)

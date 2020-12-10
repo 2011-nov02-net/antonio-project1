@@ -28,20 +28,23 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="book-line">
                     @Html.DisplayFor(modelItem => item.ISBN)
                 </td>
-                <td>
+                <td class="book-line">
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
-                <td>
+                <td class="book-line">
                     @Html.DisplayFor(modelItem => item.AuthorFullName)
                 </td>
-                <td>
+                <td class="book-line">
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
-                <td>
+                <td class="book-line">
                     @Html.ActionLink("View Book", "Details", new { isbn = item.ISBN })
+                </td>
+                <td>
+                    <img class="book-cover-sm" src="@item.ImageLink" alt="book cover" />
                 </td>
             </tr>
         }

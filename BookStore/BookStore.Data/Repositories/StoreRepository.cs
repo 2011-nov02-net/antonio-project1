@@ -112,7 +112,7 @@ namespace BookStore.Data.Repositories
         public Domain.Models.Customer GetCustomerWithLocationAndInventory(int id)
         {
             // first we create our db customer to check if we find it
-            CustomerEntity dbCustomer;
+            Entities.CustomerEntity dbCustomer;
 
             // if we do then we assign it to the customer
             dbCustomer = _context.Customers
@@ -137,7 +137,7 @@ namespace BookStore.Data.Repositories
         public IEnumerable<Domain.Models.Stock> GetStocksForLocation(int locationID)
         {
             // since it is a location that exists we don't have to do much exception handling and we just get the inventories for the location including the book table
-            IQueryable<Entities.InventoryEntity> stocks = _context.Inventories.Include(b => b.BookIsbnNavigation).Where(i => i.LocationId == locationID);
+            IQueryable<Entities.InventoryEntity> stocks = _context.Inventories.Include(b => b.BookIsbnNavigation).ThenInclude(g=>g.Genre).Where(i => i.LocationId == locationID);
             List<Domain.Models.Stock> m_stocks = new List<Domain.Models.Stock>();
 
             // assign each stock from the list of stocks to a model
@@ -167,7 +167,7 @@ namespace BookStore.Data.Repositories
             Save();
 
             // Create their shopping cart
-            ShoppingcartEntity shoppingcartEntity = new ShoppingcartEntity
+            Entities.ShoppingcartEntity shoppingcartEntity = new Entities.ShoppingcartEntity
             {
                 CustomerId = entity.Id
             };
@@ -203,6 +203,7 @@ namespace BookStore.Data.Repositories
 
         public IEnumerable<Domain.Models.Customer> GetCustomers()
         {
+            FillBookLibrary();
             return _context.Customers.Include(l => l.Location)
                     .Include(sc => sc.Shoppingcarts)
                     .ThenInclude(ci => ci.Cartitems).Select(MapperCustomer.MapCustomerWithLocation);
@@ -293,14 +294,17 @@ namespace BookStore.Data.Repositories
         /// <summary>
         /// The purpose of this class is to fill the static Domain in the models with the book information
         /// </summary>
-        public IEnumerable<Domain.Models.Book> FillBookLibrary()
+        public IEnumerable<Domain.Models.Book> FillBookLibrary(string isbn = null)
         {
-            Domain.Models.Book.Library = _context.Books.Select(MapperBook.Map);
-            return Domain.Models.Book.Library;
-        }
-        public Domain.Models.Book GetBook(string isbn)
-        {
-            return MapperBook.Map(_context.Books.Where(b => b.Isbn.Equals(isbn)).FirstOrDefault());
+            IQueryable<BookEntity> dbBooks = _context.Books.Include(g=>g.Genre);
+            Domain.Models.Book.Library = dbBooks.Select(MapperBook.Map);
+            // This is were we check if it is one location or all
+            if (isbn != null)
+            {
+                dbBooks = dbBooks.Where(i => i.Isbn.Contains(isbn));
+            }
+
+            return dbBooks.Select(MapperBook.Map);
         }
 
         /// <summary>

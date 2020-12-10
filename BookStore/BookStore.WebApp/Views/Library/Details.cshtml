@@ -6,73 +6,86 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ISBN)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ISBN)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AuthorFullName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AuthorFullName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-    </dl>
-</div>
-<h3>
-    Your Location Stock for "@Html.DisplayFor(model => model.Title)"
-</h3>
-@if (Model.LocationsWithStock.Count == 0)
-{
-    <div>
-        <p>Your Location does not have any books in stock for "@Model.Title"</p>
+<div class="card">
+    <div class="card-header">
+        <h4>@Model.Title</h4>
+        <hr />
     </div>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Location</th>
-                <th>In Stock</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var location in Model.LocationsWithStock)
-            {
-                <tr>
-                    <td>@location.Key</td>
-                    <td>@location.Value</td>
-                    <td>
-                        <form asp-action="AddToCart">
-                            <div class="form-group">
-                                <input type="number" class="form-control-sm" placeholder="QTY" min="1" max=@location.Value name="qty" />
-                                <input type="hidden" value=@Model.ISBN name="isbn" />
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Add to Cart" class="btn btn-primary" />
-                            </div>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+    <div class="card-body">
+        <img class="book-cover" src="@Model.ImageLink" alt="@Model.Title" />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ISBN)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ISBN)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AuthorFullName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AuthorFullName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Genre)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Genre)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+        </dl>
+    </div>
+    <div class="card-footer">
+        <h3>
+            Your Location Stock for "@Html.DisplayFor(model => model.Title)"
+        </h3>
+        @if (Model.LocationsWithStock.Count == 0)
+        {
+            <div>
+                <p>Your Location does not have any books in stock for "@Model.Title"</p>
+            </div>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>In Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var location in Model.LocationsWithStock)
+                    {
+                        <tr>
+                            <td>@location.Key</td>
+                            <td>@location.Value</td>
+                            <td>
+                                <form asp-action="AddToCart">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control-sm" placeholder="QTY" min="1" max=@location.Value name="qty" />
+                                        <input type="hidden" value=@Model.ISBN name="isbn" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" value="Add to Cart" class="btn btn-primary" />
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

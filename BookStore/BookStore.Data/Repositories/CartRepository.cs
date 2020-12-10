@@ -12,7 +12,7 @@ namespace BookStore.Data.Repositories
         private readonly StoreContext _context;
 
         /// <summary>
-        /// A repository managing data access for Store objects,
+        /// A repository managing data access for Cart objects,
         /// using Entity Framework.
         /// </summary>
         public CartRepository(StoreContext context)
@@ -22,7 +22,7 @@ namespace BookStore.Data.Repositories
 
         public void AddCartItem(Customer customer, Book book, int quantity)
         {
-            var db_cartItem = new CartitemEntity
+            var db_cartItem = new Entities.CartitemEntity
             {
                 BookIsbn = book.ISBN,
                 Quantity = quantity,
@@ -57,16 +57,16 @@ namespace BookStore.Data.Repositories
 
         public void RemoveCartItem(Customer customer, Book book, int quantity)
         {
-            var db_cartItem_rm = new CartitemEntity
+            var db_cartItem_rm = new Entities.CartitemEntity
             {
-                ItemId = customer.MyCart.CartItems.First(b => b.Book.ISBN == book.ISBN).ID
+                ItemId = customer.MyCart.CartItems.First((b) => b.Book.ISBN == book.ISBN).ID
             };
 
             var db_location = _context.Inventories.First(i => i.LocationId == customer.MyStoreLocation.ID);
 
             db_location.Quantity += quantity;
 
-            _context.Set<CartitemEntity>().Remove(db_cartItem_rm);
+            _context.Set<Entities.CartitemEntity>().Remove(db_cartItem_rm);
 
             _context.SaveChanges();
         }

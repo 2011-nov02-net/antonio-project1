@@ -27,7 +27,8 @@ namespace BookStore.WebApp.Controllers
                 AuthorFirstName = b.AuthorFirstName,
                 AuthorLastName = b.AuthorLastName,
                 Price = b.Price,
-                Title = b.Title
+                Title = b.Title,
+                ImageLink = b.Imagelink
             });
             return View(library);
         }
@@ -35,7 +36,7 @@ namespace BookStore.WebApp.Controllers
         // GET: LibraryController/Details/5
         public ActionResult Details(string isbn)
         {
-            var b = _repository.GetBook(isbn);
+            var b = _repository.FillBookLibrary(isbn).First();
             BookViewModel book = new BookViewModel
             {
                 ISBN = b.ISBN,
@@ -43,7 +44,9 @@ namespace BookStore.WebApp.Controllers
                 AuthorLastName = b.AuthorLastName,
                 Price = b.Price,
                 Title = b.Title,
-                LocationsWithStock = _repository.GetLocationsIfStocksExistForISBN(Int32.Parse(TempData.Peek("MyStoreID").ToString()), isbn)
+                Genre = b.Genre.Name,
+                LocationsWithStock = _repository.GetLocationsIfStocksExistForISBN(Int32.Parse(TempData.Peek("MyStoreID").ToString()), isbn),
+                ImageLink = b.Imagelink
             };
 
             return View(book);

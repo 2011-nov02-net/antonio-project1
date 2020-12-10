@@ -1,0 +1,13 @@
+﻿.book-cover {
+    height: 350px;
+    width: 215px;
+    vertical-align: top;
+    float: left;
+}
+.book-cover-sm {
+    height: 88px;
+    width: 54px;
+}
+.book-line {
+    vertical-align: middle !important;
+}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
@@ -18,7 +19,10 @@ namespace BookStore.Data.Entities
         public decimal Price { get; set; }
         public string AuthorFirstName { get; set; }
         public string AuthorLastName { get; set; }
+        public int? GenreId { get; set; }
+        public string ImageLink { get; set; }
 
+        public virtual GenreEntity Genre { get; set; }
         public virtual ICollection<CartitemEntity> Cartitems { get; set; }
         public virtual ICollection<InventoryEntity> Inventories { get; set; }
         public virtual ICollection<OrderlineEntity> Orderlines { get; set; }

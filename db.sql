@@ -6,11 +6,16 @@ drop table if exists inventory;
 drop table if exists book;
 drop table if exists customer;
 drop table if exists location;
-
+drop table if exists genre;
 
 create table location(
 	id int primary key identity,
 	name nvarchar(50) not null
+)
+
+create table genre(
+	id int primary key identity,
+	name nvarchar(50) unique
 )
 
 create table customer(
@@ -29,7 +34,9 @@ create table book(
 	name nvarchar(50) not null,
 	price decimal(19,4) not null,
 	author_first_name nvarchar(50),
-	author_last_name nvarchar(50)
+	author_last_name nvarchar(50),
+	genre_id int foreign key references genre(id),
+	image_link nvarchar(1000)
 )
 
 create table inventory(

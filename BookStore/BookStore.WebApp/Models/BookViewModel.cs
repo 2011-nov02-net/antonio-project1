@@ -32,6 +32,12 @@ namespace BookStore.WebApp.Models
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
+        public string Genre { get; set; }
+
+        [Required(ErrorMessage = "Link for an image is Required")]
+        [Url]
+        public string ImageLink { get; set; }
+
         public Dictionary<string, int> LocationsWithStock { get; set; }
     }
 }

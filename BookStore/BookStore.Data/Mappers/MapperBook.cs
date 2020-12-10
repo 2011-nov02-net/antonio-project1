@@ -16,6 +16,8 @@
                 ISBN = book.Isbn,
                 Price = book.Price,
                 Title = book.Name,
+                Genre = new Domain.Models.Genre {ID = book.Genre.Id, Name = book.Genre.Name },
+                Imagelink = book.ImageLink
             };
         }
 
@@ -32,7 +34,8 @@
                 AuthorFirstName = book.AuthorFirstName,
                 AuthorLastName = book.AuthorLastName,
                 Name = book.ISBN,
-                Price = book.Price
+                Price = book.Price,
+                Genre = { Id = book.Genre.ID, Name = book.Genre.Name}
             };
         }
     }

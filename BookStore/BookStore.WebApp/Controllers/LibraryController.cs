@@ -11,17 +11,19 @@ namespace BookStore.WebApp.Controllers
     {
         private readonly IStoreRepository _repository;
         private readonly ICartRepository _cartrepository;
+        private readonly IBookRepository _bookrepository;
 
-        public LibraryController(IStoreRepository repository, ICartRepository cartRepository)
+        public LibraryController(IStoreRepository repository, ICartRepository cartRepository, IBookRepository bookRepository)
         {
             _repository = repository;
             _cartrepository = cartRepository;
+            _bookrepository = bookRepository;
         }
 
         // GET: LibraryController
-        public ActionResult Index(string authorNameSearch = null, 
-            string titleSearch = null, 
-            string isbnSearch = null, 
+        public ActionResult Index(string authorNameSearch = null,
+            string titleSearch = null,
+            string isbnSearch = null,
             string genreSearch = null)
         {
             var library = _repository.FillBookLibrary().Select(b => new BookViewModel
@@ -97,6 +99,47 @@ namespace BookStore.WebApp.Controllers
             catch (Exception)
             {
                 return RedirectToAction(nameof(Index));
+            }
+        }
+
+        public ActionResult Create(BookViewModel model = null)
+        {
+            var newBook = new BookViewModel();
+            if (model != null) 
+            {
+                newBook = model;
+            }
+            newBook.GenreList = _bookrepository.GetGenres().Select(g => new GenreViewModel
+            {
+                ID = g.ID,
+                Name = g.Name
+            });
+            return View(newBook);
+        }
+
+        // POST: CustomerController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
+        {
+            var newBook = new Domain.Models.Book();
+            if (ModelState.IsValid) {
+                newBook.Title = collection["Title"];
+                newBook.AuthorFirstName = collection["AuthorFirstName"];
+                newBook.AuthorLastName = collection["AuthorLastName"];
+                newBook.Imagelink = collection["ImageLink"];
+                newBook.ISBN = collection["ISBN"];
+                newBook.Price = decimal.Parse(collection["Price"]);
+                newBook.Genre = new Domain.Models.Genre { ID = Int32.Parse(collection["GenreList"]) };
+            }
+            try
+            {
+                _bookrepository.AddBook(newBook);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Create), newBook);
             }
         }
     }

@@ -9,10 +9,11 @@ namespace BookStore.Domain.Interfaces
 {
     public interface IBookRepository
     {
-        IEnumerable<Book> FillBookLibrary();
-        bool AddBook(Book newBook);
+        IEnumerable<Book> GetLibrary();
+        void AddBook(Book newBook);
         Book GetBook(string isbn);
         Book DeleteBook(Book bookToDelete);
         Book UpdateBook(Book bookToUpdate);
+        IEnumerable<Genre> GetGenres();
     }
 }

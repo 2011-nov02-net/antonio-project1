@@ -29,6 +29,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
+                <td>
+                    @Html.ActionLink("Adjust Inventory", "Edit", "Location", routeValues: new {locationID = item.CurrentLocationID, currentStock = item.Quantity, isbn = item.ISBN, book = item.Book }, htmlAttributes: new { @class = "btn btn-primary", @role = "button" })
+                </td>
             </tr>
         }
     </tbody>

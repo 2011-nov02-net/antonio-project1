@@ -11,7 +11,11 @@ namespace BookStore.WebApp.Models
         public string Book { get; set; }
 
         [Display(Name = "In Stock")]
-        [RegularExpression("^[0-9]", ErrorMessage = "Must be a number.")]
+        [Required(ErrorMessage = "Quantity is Required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
         public int Quantity { get; set; }
+
+        public int CurrentLocationID {get;set;}
+        public string ISBN { get; set; }
     }
 }

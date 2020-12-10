@@ -14,6 +14,6 @@ namespace BookStore.Domain.Interfaces
         IEnumerable<Order> GetOrderHistoryByLocationID(int locationID);
         IEnumerable<Stock> GetStocksForLocation(int locationID);
 
-
+        void AdjustStockForLocation(int locationID, string ISBN, int newQuantity);
     }
 }

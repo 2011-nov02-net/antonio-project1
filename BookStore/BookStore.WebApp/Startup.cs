@@ -28,6 +28,7 @@ namespace BookStore.WebApp
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<ILocationRepository, LocationRepository>();
 
             services.AddControllersWithViews();
         }

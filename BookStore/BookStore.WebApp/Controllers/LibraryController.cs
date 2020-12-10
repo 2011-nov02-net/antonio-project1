@@ -19,7 +19,10 @@ namespace BookStore.WebApp.Controllers
         }
 
         // GET: LibraryController
-        public ActionResult Index()
+        public ActionResult Index(string authorNameSearch = null, 
+            string titleSearch = null, 
+            string isbnSearch = null, 
+            string genreSearch = null)
         {
             var library = _repository.FillBookLibrary().Select(b => new BookViewModel
             {
@@ -28,8 +31,27 @@ namespace BookStore.WebApp.Controllers
                 AuthorLastName = b.AuthorLastName,
                 Price = b.Price,
                 Title = b.Title,
-                ImageLink = b.Imagelink
+                ImageLink = b.Imagelink,
+                Genre = b.Genre.Name
             });
+
+            if (!string.IsNullOrEmpty(authorNameSearch))
+            {
+                library = library.Where(l => l.AuthorFullName.Contains(authorNameSearch));
+            }
+            if (!string.IsNullOrEmpty(titleSearch))
+            {
+                library = library.Where(l => l.Title.Contains(titleSearch));
+            }
+            if (!string.IsNullOrEmpty(isbnSearch))
+            {
+                library = library.Where(l => l.ISBN.Contains(isbnSearch));
+            }
+            if (!string.IsNullOrEmpty(genreSearch))
+            {
+                library = library.Where(l => l.Genre.Contains(genreSearch));
+            }
+
             return View(library);
         }
 

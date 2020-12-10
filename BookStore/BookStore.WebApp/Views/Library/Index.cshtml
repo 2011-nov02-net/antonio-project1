@@ -5,6 +5,18 @@
 }
 
 <h1>Library</h1>
+<button class="float-right btn-secondary" data-toggle="collapse" data-target="#filters">Filters</button>
+
+<div id="filters" class="collapse">
+    <form asp-controller="Library" asp-action="Index" method="get">
+        <p>Author: <br />@Html.TextBox("AuthorNameSearch")</p>
+        <p>Title: <br />@Html.TextBox("TitleSearch")</p>
+        <p>ISBN: <br />@Html.TextBox("IsbnSearch")</p>
+        <p>Genre: <br />@Html.TextBox("GenreSearch")</p>
+        <input type="submit" value="Filter" />
+        </p>
+    </form>
+</div>
 
 <table class="table">
     <thead>
@@ -19,6 +31,9 @@
                 @Html.DisplayNameFor(model => model.AuthorFullName)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
             <th></th>
@@ -27,26 +42,29 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td class="book-line">
-                    @Html.DisplayFor(modelItem => item.ISBN)
-                </td>
-                <td class="book-line">
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td class="book-line">
-                    @Html.DisplayFor(modelItem => item.AuthorFullName)
-                </td>
-                <td class="book-line">
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td class="book-line">
-                    @Html.ActionLink("View Book", "Details", new { isbn = item.ISBN })
-                </td>
-                <td>
-                    <img class="book-cover-sm" src="@item.ImageLink" alt="book cover" />
-                </td>
-            </tr>
+        <tr>
+            <td class="book-line">
+                @Html.DisplayFor(modelItem => item.ISBN)
+            </td>
+            <td class="book-line">
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td class="book-line">
+                @Html.DisplayFor(modelItem => item.AuthorFullName)
+            </td>
+            <td class="book-line">
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td class="book-line">
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td class="book-line">
+                @Html.ActionLink("View Book", "Details", new { isbn = item.ISBN })
+            </td>
+            <td>
+                <img class="book-cover-sm" src="@item.ImageLink" alt="book cover" />
+            </td>
+        </tr>
         }
     </tbody>
 </table>

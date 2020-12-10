@@ -34,6 +34,14 @@ namespace BookStore.Data.Repositories
         public void AddBook(Book newBook)
         {
             var db_book = Mappers.MapperBook.Map(newBook);
+
+            var db_locations = _context.Locations.Select(l => new LocationEntity { Id = l.Id });
+
+            foreach(var l in db_locations) 
+            {
+                _context.Add(new InventoryEntity {LocationId = l.Id, BookIsbn = newBook.ISBN, Quantity = 0 });
+            }
+
             _context.Add(db_book);
             _context.SaveChanges();
         }

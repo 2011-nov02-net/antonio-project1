@@ -30,6 +30,7 @@ namespace BookStore.Domain.Models
                 return false;
             }
             var newOrderLine = new OrderLine();
+            newOrderLine.LineCost = Book.GetBookFromLibrary(lineFiltered[0]).Price* Int32.Parse(lineFiltered[1]);
             newOrderLine.BookISBN = lineFiltered[0];
 
             // make sure that the quantity is a number

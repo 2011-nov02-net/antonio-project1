@@ -8,7 +8,7 @@ namespace BookStore.WebApp.Models
     {
         [Display(Name = "ISBN")]
         [Required(ErrorMessage = "ISBN is Required")]
-        [MaxLength(15, ErrorMessage = "ISBN can't be longer than 15 characters")]
+        [MaxLength(14, ErrorMessage = "ISBN can't be longer than 15 characters")]
         public string ISBN { get; set; }
 
         [Display(Name = "Title")]

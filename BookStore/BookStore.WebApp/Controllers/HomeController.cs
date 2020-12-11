@@ -4,23 +4,31 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Linq;
 
 namespace BookStore.WebApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IStoreRepository _storerepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IStoreRepository storeRepository)
         {
             _logger = logger;
+            _storerepository = storeRepository;
         }
 
         public IActionResult Index()
         {
-            _logger.LogInformation("The main page has been accessed");
+            var locaSales = _storerepository.GetLocationNamesWithTotalSales();
+            var data = new HomeViewModel
+            {
+                LocationSales = locaSales,
+                LocationWithMostSales = locaSales.Aggregate((x, y) => x.Value > y.Value ? x : y).Key
+        };
 
-            return View();
+            return View(data);
         }
 
         public IActionResult Privacy()

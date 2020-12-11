@@ -21,6 +21,16 @@ namespace BookStore.Data.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        public Dictionary<string, decimal> GetLocationNamesWithTotalSales()
+        {
+            Dictionary<string, decimal> locationSales =  _context.Locations.ToDictionary(l => l.Name, y=>  Convert.ToDecimal(0));
+
+            foreach (var key in locationSales.Keys.ToList() ) {
+                locationSales[key] = _context.Orders.Include(l=>l.Location).Include(ol=>ol.Orderlines).Select(MapperOrder.MapOrderWithOrderLinesAndLocation).Where(l=>l.LocationPlaced.LocationName==key).Sum(o=>o.TotalCost);
+            }
+            return locationSales;
+        }
+
         /// <summary>
         /// This function can take a string or not. If it does then it will return a location by itself.
         /// If it does not contain a string then it returns all the locations in the database mapped to
@@ -137,7 +147,7 @@ namespace BookStore.Data.Repositories
         public IEnumerable<Domain.Models.Stock> GetStocksForLocation(int locationID)
         {
             // since it is a location that exists we don't have to do much exception handling and we just get the inventories for the location including the book table
-            IQueryable<Entities.InventoryEntity> stocks = _context.Inventories.Include(b => b.BookIsbnNavigation).ThenInclude(g=>g.Genre).Where(i => i.LocationId == locationID);
+            IQueryable<Entities.InventoryEntity> stocks = _context.Inventories.Include(b => b.BookIsbnNavigation).ThenInclude(g => g.Genre).Where(i => i.LocationId == locationID);
             List<Domain.Models.Stock> m_stocks = new List<Domain.Models.Stock>();
 
             // assign each stock from the list of stocks to a model
@@ -296,7 +306,7 @@ namespace BookStore.Data.Repositories
         /// </summary>
         public IEnumerable<Domain.Models.Book> FillBookLibrary(string isbn = null)
         {
-            IQueryable<BookEntity> dbBooks = _context.Books.Include(g=>g.Genre);
+            IQueryable<BookEntity> dbBooks = _context.Books.Include(g => g.Genre);
             Domain.Models.Book.Library = dbBooks.Select(MapperBook.Map);
             // This is were we check if it is one location or all
             if (isbn != null)

@@ -52,6 +52,21 @@ namespace BookStore.Data.Mappers
                 TimeStamp = (DateTime)order.OrderDate
             };
         }
+        /// <summary>
+        /// Turn a map order with their orderlines into a model order with model orderlines
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public static Domain.Models.Order MapOrderWithOrderLinesAndLocation(Entities.OrderEntity order)
+        {
+            return new Domain.Models.Order
+            {
+                OrderNumber = order.Id,
+                Purchase = order.Orderlines.Select(MapperOrderLine.Map).ToList(),
+                TimeStamp = (DateTime)order.OrderDate,
+                LocationPlaced = MapperLocation.Map(order.Location)
+            };
+        }
 
         public static Entities.OrderEntity Map(Domain.Models.Order order)
         {

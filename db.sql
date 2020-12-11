@@ -75,3 +75,10 @@ create table cartitem(
 	data_added datetime default current_timestamp,
 	shoppingcart_id int foreign key references shoppingcart(cart_id)
 )
+
+select o.id, sum(ol.total) as OrderTotal from Orders as o
+	join orderline as ol on o.id = ol.order_id
+	group by o.id
+	order by OrderTotal DESC;
+
+select * from orderline

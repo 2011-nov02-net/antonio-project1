@@ -1,5 +1,36 @@
-﻿@{
+﻿@model BookStore.WebApp.Models.HomeViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<h1>Welcome!</h1>
+<p><h1>Welcome!</h1></p>
+<h4>Overview</h4>
+<script type="text/javascript">
+
+window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer", {
+		title:{
+			text: "Your Locations Sales"
+		},
+		data: [
+		{
+			type: "column",
+				dataPoints: [@foreach (var pair in Model.LocationSales) {
+                @:{ label: "@pair.Key" , y: @pair.Value },
+                }]
+		}
+		],
+        axisY: {
+            prefix: "$"
+		},
+        theme: "dark2"
+	});
+	chart.render();
+}
+</script>
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <p>
+        <h5>
+            @Html.DisplayNameFor(model => model.LocationWithMostSales): @Model.LocationWithMostSales
+        </h5>
+    </p>

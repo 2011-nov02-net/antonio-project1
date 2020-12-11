@@ -13,7 +13,7 @@
             {
                 BookISBN = orderline.BookIsbn,
                 Quantity = orderline.Quantity,
-                LineCost = 0
+                LineCost = orderline.Total
             };
         }
 
@@ -27,7 +27,8 @@
             return new Entities.OrderlineEntity
             {
                 BookIsbn = orderline.BookISBN,
-                Quantity = orderline.Quantity
+                Quantity = orderline.Quantity,
+                Total = orderline.LineCost
             };
         }
     }

@@ -31,6 +31,23 @@ namespace BookStore.Data.Repositories
             return locationSales;
         }
 
+        public IEnumerable<Domain.Models.Book> GetBestSellersList() 
+        {
+            var orderLines = _context.Orderlines.Select(MapperOrderLine.Map);
+            var isbns = _context.Books.Include(g=>g.Genre).Select(MapperBook.Map).ToDictionary(b => b.ISBN, y => 0);
+            foreach (var ol in orderLines) {
+                foreach (var key in isbns.Keys.ToList())
+                    if (ol.BookISBN == key) {
+                        isbns[key] += ol.Quantity;
+                    }
+            }
+            var topFiveSellers = new List<Domain.Models.Book>();
+            foreach (var total in isbns.OrderByDescending(key => key.Value).Take(5)) {
+                topFiveSellers.Add(_context.Books.Select(MapperBook.Map).First(b=>b.ISBN == total.Key));
+            }
+            return topFiveSellers;
+        }
+
         /// <summary>
         /// This function can take a string or not. If it does then it will return a location by itself.
         /// If it does not contain a string then it returns all the locations in the database mapped to

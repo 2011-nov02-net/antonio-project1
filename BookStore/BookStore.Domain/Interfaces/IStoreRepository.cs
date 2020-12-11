@@ -6,6 +6,7 @@ namespace BookStore.Domain.Interfaces
     public interface IStoreRepository
     {
         Dictionary<string, decimal> GetLocationNamesWithTotalSales();
+        IEnumerable<Domain.Models.Book> GetBestSellersList();
         IEnumerable<Location> GetAllLocations(string search = null);
         int PlaceAnOrderForACustomer(Order m_order);
         public Customer GetCustomerWithLocationAndInventory(int id);

@@ -22,10 +22,16 @@ namespace BookStore.WebApp.Controllers
         public IActionResult Index()
         {
             var locaSales = _storerepository.GetLocationNamesWithTotalSales();
+            var bestsellerslist = _storerepository.GetBestSellersList();
             var data = new HomeViewModel
             {
                 LocationSales = locaSales,
-                LocationWithMostSales = locaSales.Aggregate((x, y) => x.Value > y.Value ? x : y).Key
+                LocationWithMostSales = locaSales.Aggregate((x, y) => x.Value > y.Value ? x : y).Key,
+                BestSellers = bestsellerslist.Select(b=> new BookViewModel {
+                    Title = b.Title,
+                    AuthorFirstName = b.AuthorFirstName,
+                    AuthorLastName = b.AuthorLastName
+                })
         };
 
             return View(data);

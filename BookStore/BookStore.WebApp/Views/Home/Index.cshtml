@@ -31,6 +31,12 @@ window.onload = function () {
     <div id="chartContainer" style="height: 300px; width: 100%;"></div>
     <p>
         <h5>
-            @Html.DisplayNameFor(model => model.LocationWithMostSales): @Model.LocationWithMostSales
-        </h5>
+            @Html.DisplayNameFor(model => model.LocationWithMostSales):
+        </h5>@Model.LocationWithMostSales
     </p>
+<h5>Best Seller's List</h5>
+<ol>
+	@foreach (var book in Model.BestSellers) {
+		<li>@book.Title by @book.AuthorFullName</li>
+	}
+</ol>

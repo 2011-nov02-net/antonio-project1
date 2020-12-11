@@ -12,5 +12,7 @@ namespace BookStore.WebApp.Models
 
         [Display(Name="Location with the most sales: ")]
         public string LocationWithMostSales { get; set; }
+
+        public IEnumerable<BookViewModel> BestSellers { get; set; }
     }
 }

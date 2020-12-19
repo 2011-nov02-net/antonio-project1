@@ -20,19 +20,27 @@ namespace BookStore.WebApp.Controllers
         // GET: ShoppingCart
         public ActionResult Index()
         {
-            _repository.FillBookLibrary();
-            var shoppingCart = _cartrepository.GetShoppingCartByCustomerID(Int32.Parse(TempData.Peek("CustomerID").ToString()));
-            var cart = new ShoppingCartViewModel
+            try
             {
-                ID = shoppingCart.ID,
-                CartItems = shoppingCart.CartItems.Select(ci => new CartItemViewModel
+
+                _repository.FillBookLibrary();
+                var shoppingCart = _cartrepository.GetShoppingCartByCustomerID(Int32.Parse(TempData.Peek("CustomerID").ToString()));
+                var cart = new ShoppingCartViewModel
                 {
-                    Quantity = ci.Quantity,
-                    ISBN = ci.Book.ISBN
-                }),
-                CartTotal = shoppingCart.CartTotal
-            };
-            return View(cart);
+                    ID = shoppingCart.ID,
+                    CartItems = shoppingCart.CartItems.Select(ci => new CartItemViewModel
+                    {
+                        Quantity = ci.Quantity,
+                        ISBN = ci.Book.ISBN
+                    }),
+                    CartTotal = shoppingCart.CartTotal
+                };
+                return View(cart);
+            }
+            catch (Exception)
+            {
+                RedirectToAction("Index", controllerName:"Home");
+            }
         }
 
         [HttpPost]

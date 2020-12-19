@@ -81,4 +81,7 @@ select o.id, sum(ol.total) as OrderTotal from Orders as o
 	group by o.id
 	order by OrderTotal DESC;
 
-select * from orderline
+select b.name, sum(ol.quantity) as TotalSales from Book as b
+	left join orderline as ol on ol.book_isbn = b.isbn
+	group by b.name
+	order by TotalSales DESC

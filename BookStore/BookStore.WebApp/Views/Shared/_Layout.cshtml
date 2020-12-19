@@ -37,10 +37,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="Index">Library</a>
                         </li>
                     </ul>
-                    <div class="navbar-text">Acting as: @TempData.Peek("CustomerName")&nbsp;</div>
-                    <div>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="Index">Cart: @TempData.Peek("TotalCartItems")</a>
-                    </div>
+                    @if (TempData.Peek("CustomerName")!=null)
+                    {
+                        <div class="navbar-text">Acting as: @TempData.Peek("CustomerName")&nbsp;</div>
+                        <div>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="Index">Cart: @TempData.Peek("TotalCartItems")</a>
+                        </div>
+                    }
                 </div>
             </div>
         </nav>

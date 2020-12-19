@@ -30,7 +30,8 @@ namespace BookStore.WebApp.Controllers
                 BestSellers = bestsellerslist.Select(b=> new BookViewModel {
                     Title = b.Title,
                     AuthorFirstName = b.AuthorFirstName,
-                    AuthorLastName = b.AuthorLastName
+                    AuthorLastName = b.AuthorLastName,
+                    ImageLink = b.Imagelink
                 })
         };
 

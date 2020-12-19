@@ -23,6 +23,7 @@ Book Store allows a store owner with many locations and customers to manager ord
 * View Location Inventory along with product details
 * Manage Inventory for Locations
 * Create new products
+* Filter products 
 * View Order Details
 * Gain access to dashboard giving insight into sales
 * Create new customers
@@ -39,13 +40,13 @@ Current Live Version: https://mvc-mendez.azurewebsites.net/
 Build:
 (Windows)
 * git clone https://github.com/2011-nov02-net/antonio-project1
-* migrate the code to a database using dotnet ef migrations add and dotnet ef database update
+* migrate the code to a database using `dotnet ef migrations add` and `dotnet ef database update`
 * run with dotnet run
 
 ## Usage
 
 Once connected you can click on any of the tabs to begin viewing data. For best experience please go to customers and assign one as the acting customer.
-This will open the shopping cart and also allow you to view books on the Library page.
+This will open the shopping cart and also allows you to view books on the Library page.
 
 ## License
 

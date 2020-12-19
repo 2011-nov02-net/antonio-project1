@@ -1,7 +1,7 @@
 # Book Store
 
 ## Project Description
-Book Store allows a store owner with many locations and customers to manager orders, inventory, customers, and locations. 
+Book Store allows a store owner with many locations and customers to manage orders, inventory, customers, and locations. 
 
 
 ## Technologies Used

@@ -22,7 +22,6 @@ namespace BookStore.WebApp.Controllers
         {
             try
             {
-
                 _repository.FillBookLibrary();
                 var shoppingCart = _cartrepository.GetShoppingCartByCustomerID(Int32.Parse(TempData.Peek("CustomerID").ToString()));
                 var cart = new ShoppingCartViewModel
@@ -39,7 +38,7 @@ namespace BookStore.WebApp.Controllers
             }
             catch (Exception)
             {
-                RedirectToAction("Index", controllerName:"Home");
+                return RedirectToAction("Index", controllerName:"Home");
             }
         }
 

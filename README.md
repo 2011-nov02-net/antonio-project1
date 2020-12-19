@@ -45,6 +45,7 @@ Build:
 ## Usage
 
 Once connected you can click on any of the tabs to begin viewing data. For best experience please go to customers and assign one as the acting customer.
+This will open the shopping cart and also allow you to view books on the Library page.
 
 ## License
 

@@ -62,13 +62,17 @@
             <td class="book-line">
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
-            <td class="book-line">
-                @Html.ActionLink("View Book", "Details", new { isbn = item.ISBN })
-            </td>
-            <td>
-                <img class="book-cover-sm" src="@item.ImageLink" alt="book cover" />
-            </td>
-        </tr>
+
+            @if (TempData.Peek("CustomerName") != null)
+            {
+                <td class="book-line">
+                    @Html.ActionLink("View Book", "Details", new { isbn = item.ISBN })
+                </td>
+            }
+                <td>
+                    <img class="book-cover-sm" src="@item.ImageLink" alt="book cover" />
+                </td>
+            </tr>
         }
     </tbody>
 </table>
